@@ -67,13 +67,6 @@ export const Navbar: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {isAuthenticated && user ? (
             <>
-              <span style={{ color: 'var(--text-muted)' }}>
-                Welcome, <strong style={{ color: 'var(--text-main)' }}>{user.name}</strong>
-                <span className={`badge badge-${user.role.toLowerCase()}`} style={{ marginLeft: '0.5rem' }}>
-                  {user.role}
-                </span>
-              </span>
-
               {/* Profile Drawer Button */}
               <button 
                 className="btn btn-secondary" 
