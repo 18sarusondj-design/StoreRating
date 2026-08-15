@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
 import api from '../api';
 
 export const OwnerDashboard: React.FC = () => {
@@ -30,7 +31,10 @@ export const OwnerDashboard: React.FC = () => {
         </div>
         <div style={{ textAlign: 'center', padding: '0 2rem', borderLeft: '1px solid var(--border)' }}>
           <span style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Average Rating</span>
-          <span style={{ fontSize: '3rem', fontWeight: 'bold', color: 'var(--primary)' }}>{Number(storeData.store.averageRating).toFixed(1)}</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
+            <Star size={32} color="#F59E0B" fill="#F59E0B" />
+            <span style={{ fontSize: '3rem', fontWeight: 'bold', color: 'var(--primary)' }}>{Number(storeData.store.averageRating).toFixed(1)}</span>
+          </div>
         </div>
         <div style={{ textAlign: 'center', padding: '0 2rem', borderLeft: '1px solid var(--border)' }}>
           <span style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total Ratings</span>
@@ -55,13 +59,8 @@ export const OwnerDashboard: React.FC = () => {
                 <td>{rating.user.email}</td>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ 
-                      display: 'inline-block',
-                      width: '12px', height: '12px',
-                      borderRadius: '50%',
-                      background: rating.value >= 4 ? 'var(--secondary)' : rating.value >= 3 ? '#F59E0B' : 'var(--danger)'
-                    }}></span>
-                    {rating.value} / 5
+                    <Star size={18} color="#F59E0B" fill="#F59E0B" />
+                    <strong>{rating.value} / 5</strong>
                   </div>
                 </td>
               </tr>

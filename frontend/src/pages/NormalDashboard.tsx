@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
 import api from '../api';
 
 export const NormalDashboard: React.FC = () => {
@@ -71,12 +72,18 @@ export const NormalDashboard: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
               <div>
                 <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Overall</span>
-                <strong>{Number(store.averageRating).toFixed(1)} / 5</strong>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <Star size={16} color="#F59E0B" fill="#F59E0B" />
+                  <strong>{Number(store.averageRating).toFixed(1)} / 5</strong>
+                </div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Your Rating</span>
                 {store.userRating ? (
-                  <strong style={{ color: 'var(--primary)' }}>{store.userRating} / 5</strong>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'flex-end' }}>
+                    <Star size={16} color="#4F46E5" fill="#4F46E5" />
+                    <strong style={{ color: 'var(--primary)' }}>{store.userRating} / 5</strong>
+                  </div>
                 ) : (
                   <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Not rated</span>
                 )}
@@ -99,16 +106,35 @@ export const NormalDashboard: React.FC = () => {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
           <div className="glass-panel animate-fade-in" style={{ padding: '2rem', width: '100%', maxWidth: '400px' }}>
             <h3 style={{ marginBottom: '1.5rem' }}>Rate {ratingModal.storeName}</h3>
-            <div className="input-group">
-              <label className="input-label">Select Rating (1-5)</label>
-              <input 
-                type="number" 
-                min="1" max="5" 
-                className="input-field" 
-                value={ratingValue}
-                onChange={e => setRatingValue(Number(e.target.value))}
-                style={{ fontSize: '1.5rem', textAlign: 'center' }}
-              />
+            <div className="input-group text-center">
+              <label className="input-label" style={{ marginBottom: '1rem' }}>Select Rating (1 to 5 Stars)</label>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setRatingValue(star)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '0.25rem',
+                      transition: 'transform 0.15s ease'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.2)'}
+                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                  >
+                    <Star 
+                      size={36} 
+                      color={star <= ratingValue ? '#F59E0B' : '#CBD5E1'} 
+                      fill={star <= ratingValue ? '#F59E0B' : 'transparent'} 
+                    />
+                  </button>
+                ))}
+              </div>
+              <p style={{ marginTop: '0.75rem', fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)' }}>
+                {ratingValue} / 5 Stars
+              </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
               <button className="btn btn-secondary w-full" onClick={() => setRatingModal({ ...ratingModal, isOpen: false })}>Cancel</button>
