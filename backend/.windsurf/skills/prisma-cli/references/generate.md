@@ -1,14 +1,14 @@
-# prisma generate
+
 
 Generates assets based on the generator blocks in your Prisma schema, most commonly Prisma Client.
 
-## Command
+
 
 ```bash
 prisma generate [options]
 ```
 
-## Bun Runtime
+
 
 If you're using Bun, run Prisma with `bunx --bun` so it doesn't fall back to Node.js:
 
@@ -16,13 +16,13 @@ If you're using Bun, run Prisma with `bunx --bun` so it doesn't fall back to Nod
 bunx --bun prisma generate
 ```
 
-## What It Does
+
 
 1. Reads your `schema.prisma` file
 2. Generates a customized Prisma Client based on your models
 3. Outputs to the directory specified in the generator block
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -34,15 +34,15 @@ bunx --bun prisma generate
 | `--no-hints` | Hides the hint messages but still outputs errors and warnings |
 | `--require-models` | Do not allow generating a client without models |
 
-## Examples
 
-### Basic generation
+
+
 
 ```bash
 prisma generate
 ```
 
-### Watch mode (development)
+
 
 ```bash
 prisma generate --watch
@@ -50,25 +50,25 @@ prisma generate --watch
 
 Auto-regenerates when `schema.prisma` changes.
 
-### Specific generator
+
 
 ```bash
 prisma generate --generator client
 ```
 
-### Multiple generators
+
 
 ```bash
 prisma generate --generator client --generator zod_schemas
 ```
 
-### Typed SQL generation
+
 
 ```bash
 prisma generate --sql
 ```
 
-## Schema Configuration
+
 
 ```prisma
 generator client {
@@ -77,7 +77,7 @@ generator client {
 }
 ```
 
-### Current Generator Behavior
+
 
 - `prisma-client` is the standard generator
 - `output` is required when using `prisma-client`
@@ -90,7 +90,7 @@ generator client {
 import { PrismaClient } from '../generated/prisma/client'
 ```
 
-### Compiler Build Tuning
+
 
 Use `compilerBuild` when you need to trade artifact size against the default build:
 
@@ -106,9 +106,9 @@ generator client {
 - `small` is useful for size-constrained targets
 - Prisma defaults `vercel-edge` targets to `small`
 
-## Common Patterns
 
-### After schema changes
+
+
 
 ```bash
 prisma migrate dev --name my_migration
@@ -117,7 +117,7 @@ prisma generate
 
 Run `prisma generate` whenever you need refreshed client code after schema-changing commands.
 
-### CI/CD pipeline
+
 
 ```bash
 prisma generate
@@ -125,7 +125,7 @@ prisma generate
 
 Run before building your application.
 
-### Multiple generators
+
 
 ```prisma
 generator client {
@@ -143,7 +143,7 @@ generator zod {
 prisma generate  # Runs all generators
 ```
 
-## Output Structure
+
 
 After running `prisma generate`, your output directory contains:
 

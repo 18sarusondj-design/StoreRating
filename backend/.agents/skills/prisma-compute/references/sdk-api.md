@@ -1,8 +1,8 @@
-# SDK and API Automation
+
 
 Use this reference when building automation rather than using `create-prisma` or `@prisma/cli app deploy`.
 
-## Prefer the CLI for App Workflows
+
 
 For normal app deployment:
 
@@ -10,7 +10,7 @@ For normal app deployment:
 2. Otherwise use `@prisma/cli app build/run/deploy`.
 3. Use SDK/API only for custom automation, platform integrations, or tool builders.
 
-## Compute SDK
+
 
 Install:
 
@@ -53,8 +53,7 @@ const result = await compute.deploy({
     entrypoint: "index.js",
   }),
   projectId: "proj_abc",
-  appName: "my-app",
-  // region: "us-east-1", // optional: explicit placement for a new app
+  appName: "my-app",
   envVars: { DATABASE_URL: databaseUrl },
   portMapping: { http: 3000 },
 })
@@ -68,7 +67,7 @@ if (result.isOk()) {
 
 SDK methods return `Result<T, E>`. Check `isOk()` or `isErr()` instead of assuming errors throw. Deploy results expose app/deployment vocabulary including `appId`, `appName`, `projectId`, `region`, `deploymentId`, `deploymentEndpointDomain`, `appEndpointDomain`, `promoted`, `previousDeploymentId`, `previousDeploymentAction`, and `resolvedConfig`.
 
-## SDK Build Strategies
+
 
 Project Compute SDK strategies:
 
@@ -82,7 +81,7 @@ Project Compute SDK strategies:
 - `BunBuild`: runs `bun build` and needs an explicit entrypoint or `package.json` `main`
 - `PreBuilt`: uses an existing artifact directory and relative entrypoint
 
-## Regions
+
 
 Known SDK region ids:
 
@@ -99,7 +98,7 @@ Use `--region` in `@prisma/cli app deploy` or `region` in SDK deploy input only 
 
 `region` is optional on `deploy` and `createApp`. Omit it to use the Project/platform default when creating an app; do not hard-code a region unless placement is an application requirement.
 
-## Repository-snapshot detection
+
 
 Tooling that already has an in-memory repository tree can detect a deployable app without checking files out:
 
@@ -121,7 +120,7 @@ The result contains `framework`, `frameworkName`, `buildType`, `httpPort`, `entr
 
 The helper detects one app root. A monorepo consumer must enumerate workspaces and call it once per candidate. Detection reads `dependencies` and `devDependencies` (not peer dependencies), recognizes config files and framework packages, and can infer Bun-backed servers from valid `start`/`serve` script entrypoints.
 
-## Management API Concepts
+
 
 Compute resources map roughly to:
 
@@ -152,9 +151,7 @@ bunx @prisma/cli@latest database create preview-db --branch feature/foo --json
 bunx @prisma/cli@latest app deploy --branch feature/foo --json --no-interactive
 ```
 
-Production promotion is not just "the same branch with another label"; `app promote <deployment-id>` rebuilds with production env vars.
-
-## Secrets and Redaction
+Production promotion is not just "the same branch with another label"; `app promote <deployment-id>` rebuilds with production env vars.
 
 Management API deployment inspection exposes env var names with redacted values. Treat any value like `[redacted]` as a marker, not as the deployed value.
 

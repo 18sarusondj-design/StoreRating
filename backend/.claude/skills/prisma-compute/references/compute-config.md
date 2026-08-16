@@ -1,4 +1,4 @@
-# Prisma Compute Config
+
 
 Use this reference when creating or updating `prisma.compute.ts`, especially for monorepos, multi-app deploys, reusable framework defaults, env inputs, ports, entrypoints, or build settings.
 
@@ -6,13 +6,13 @@ Use this reference when creating or updating `prisma.compute.ts`, especially for
 
 For monorepos or multi-app repositories, use `prisma.compute.ts`: it is the practical way to tell Compute which app target lives at which `root` and which framework/entry/env defaults belong to each target.
 
-## Generating a Config with `init`
+
 
 Prefer `bunx @prisma/cli@latest init` over hand-writing a fresh single-app config. It detects the framework from the same registry deploy uses, pins `name`, `framework`, and `httpPort` (plus `entry` for Bun and Hono), previews every value with its source, offers the `@prisma/compute-sdk` devDependency for editor types, and offers the Project link. Useful flags: `--framework`, `--entry`, `--http-port`, `--name`, `--no-link`, `--json`.
 
 `--format json` writes a dependency-free static `prisma.compute.json` instead of the TypeScript config; a later explicit `init --format ts` converts it in place when the config needs to become programmatic. `init` fails with `INIT_CONFIG_EXISTS` when any compute config already exists, never scaffolds application code, and never deploys. Multi-app monorepo configs are still written by hand.
 
-## File Names and Discovery
+
 
 The canonical file is `prisma.compute.ts`. The loader also accepts:
 
@@ -32,7 +32,7 @@ The CLI searches from the invocation directory up to the repository or workspace
 
 When a config is discovered, its directory becomes the Compute project directory for local state: `.prisma/local.json` and `.prisma/cli/state.json` live beside that config, not necessarily inside the app root.
 
-## Basic Shape
+
 
 Import `defineComputeConfig` from `@prisma/compute-sdk/config`. The CLI aliases this helper when loading the config, so the command can evaluate the config without a local SDK install solely for runtime loading.
 
@@ -58,7 +58,7 @@ Define exactly one of:
 
 Do not define both. Besides `app`/`apps`, the only other allowed top-level key is `region`: a project-level default region applied when deploy creates new apps, overridable per app and by `--region`.
 
-## App Fields
+
 
 Each app target accepts:
 
@@ -126,7 +126,7 @@ export default defineComputeConfig({
 
 A config `build` block is accepted for every supported framework: the config-backed build types are `nextjs`, `nuxt`, `astro`, `nestjs`, `tanstack-start`, `custom`, and `bun` (`hono` builds through the `bun` strategy). Only `custom` requires one (`build.outputDirectory` and `build.entrypoint`); for the others it overrides inferred build settings.
 
-## Monorepos and Multi-App Repos
+
 
 For monorepos, put `prisma.compute.ts` at the repo or workspace root and use `apps`. This keeps project binding and local `.prisma/` state at the repo root while each app builds from its own `root`.
 
@@ -190,7 +190,7 @@ Additional target rules:
 - With a single `app` config, `[app]` is accepted only when it equals the configured `name`.
 - `[app]` without any compute config file is a usage error.
 
-## Precedence
+
 
 Explicit flags win over config values:
 
@@ -211,12 +211,8 @@ bunx @prisma/cli@latest app deploy api \
   --branch feature/foo \
   --prod \
   --yes
-```
+```
 
-## Database Scope
-
-The config does not declare databases. Keep database intent in `database create`, project env commands, or external automation. Read [`app-deploy-cli.md`](app-deploy-cli.md) for deploy-all, migration, and env-var guardrails.
-
-## Relationship to `prisma.config.ts`
+The config does not declare databases. Keep database intent in `database create`, project env commands, or external automation. Read [`app-deploy-cli.md`](app-deploy-cli.md) for deploy-all, migration, and env-var guardrails.
 
 Do not put Compute deploy defaults in `prisma.config.ts`. Prisma ORM uses `prisma.config.ts`, while Compute uses `prisma.compute.ts`.

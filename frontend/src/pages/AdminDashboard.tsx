@@ -11,27 +11,27 @@ export const AdminDashboard: React.FC = () => {
   const [stores, setStores] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'stats' | 'users' | 'stores'>('stats');
   
-  // Mode toggle state
+  
   const [modeActive, setModeActive] = useState(true);
 
-  // Filter & Search states
+  
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [storeSearchQuery, setStoreSearchQuery] = useState('');
   
-  // Sort states
+  
   const [userSort, setUserSort] = useState<{ field: string; order: 'asc' | 'desc' }>({ field: 'name', order: 'asc' });
   const [storeSort, setStoreSort] = useState<{ field: string; order: 'asc' | 'desc' }>({ field: 'name', order: 'asc' });
   
-  // Modal states
+  
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [storeModalOpen, setStoreModalOpen] = useState(false);
   
-  // Form states
+  
   const [userForm, setUserForm] = useState({ name: '', email: '', password: '', address: '', role: 'NORMAL' });
   const [storeForm, setStoreForm] = useState({ storeName: '', email: '', address: '', ownerName: '', password: '' });
   const [formError, setFormError] = useState('');
   
-  // Password visibility states
+  
   const [showUserPassword, setShowUserPassword] = useState(false);
   const [showStorePassword, setShowStorePassword] = useState(false);
 
@@ -100,7 +100,7 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }}>
       
-      {/* Left Navigation Sidebar */}
+      {}
       <aside className="glass-panel" style={{
         width: '280px',
         borderRadius: 0,
@@ -115,7 +115,7 @@ export const AdminDashboard: React.FC = () => {
         flexShrink: 0
       }}>
         
-        {/* Sidebar Header Profile Card */}
+        {}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'linear-gradient(135deg, #4F46E5 0%, #0EA5E9 100%)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -137,9 +137,7 @@ export const AdminDashboard: React.FC = () => {
           </button>
         </div>
 
-
-
-        {/* Navigation Section */}
+        {}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
           <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '0.5rem', paddingLeft: '0.5rem' }}>
             Platform Navigation
@@ -196,16 +194,16 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
+      {}
       <main style={{ flex: 1, padding: '2rem', overflowX: 'hidden' }}>
         
-        {/* Main Header */}
+        {}
         <div style={{ marginBottom: '2rem' }}>
           <h2>System Administrator Dashboard</h2>
           <p style={{ color: 'var(--text-muted)' }}>Manage platform stores, registered users, and system analytics.</p>
         </div>
 
-        {/* Tab 1: Stats Overview */}
+        {}
         {activeTab === 'stats' && (
           <div className="animate-fade-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
             <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
@@ -223,7 +221,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* Tab 2: Manage Users */}
+        {}
         {activeTab === 'users' && (() => {
           const query = userSearchQuery.toLowerCase().trim();
           const filteredUsers = users
@@ -292,7 +290,7 @@ export const AdminDashboard: React.FC = () => {
           );
         })()}
 
-        {/* Tab 3: Manage Stores */}
+        {}
         {activeTab === 'stores' && (() => {
           const query = storeSearchQuery.toLowerCase().trim();
           const filteredStores = stores
@@ -366,7 +364,7 @@ export const AdminDashboard: React.FC = () => {
         })()}
       </main>
 
-      {/* Add User Modal */}
+      {}
       {userModalOpen && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 9999, padding: '2rem', overflowY: 'auto' }}>
           <div className="glass-panel animate-fade-in" style={{ padding: '2rem', width: '100%', maxWidth: '500px', margin: '2rem auto' }}>
@@ -404,7 +402,7 @@ export const AdminDashboard: React.FC = () => {
         document.body
       )}
 
-      {/* Add Store Modal */}
+      {}
       {storeModalOpen && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 9999, padding: '2rem', overflowY: 'auto' }}>
           <div className="glass-panel animate-fade-in" style={{ padding: '2rem', width: '100%', maxWidth: '500px', margin: '2rem auto' }}>

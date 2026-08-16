@@ -1,12 +1,12 @@
-# SQLite Setup
+
 
 Configure Prisma with SQLite.
 
-## Prerequisites
+
 
 - None (file-based)
 
-## 1. Schema Configuration
+
 
 In `prisma/schema.prisma`:
 
@@ -21,7 +21,7 @@ generator client {
 }
 ```
 
-## 2. Config Configuration
+
 
 In `prisma.config.ts`:
 
@@ -36,7 +36,7 @@ export default defineConfig({
 })
 ```
 
-## 3. Environment Variable
+
 
 In `.env`:
 
@@ -44,7 +44,7 @@ In `.env`:
 DATABASE_URL="file:./dev.db"
 ```
 
-### Connection String Format
+
 
 ```
 file:PATH
@@ -52,7 +52,7 @@ file:PATH
 
 - **PATH**: Relative path to the database file. Check `prisma.config.ts` if you need to confirm how your app resolves it.
 
-## Driver Adapter
+
 
 Use a driver adapter for the standard SQL workflow.
 
@@ -73,7 +73,7 @@ Use a driver adapter for the standard SQL workflow.
    const prisma = new PrismaClient({ adapter })
    ```
 
-## Using Driver Adapter (LibSQL / Turso)
+
 
 For edge compatibility or Turso:
 
@@ -94,13 +94,9 @@ For edge compatibility or Turso:
    const prisma = new PrismaClient({ adapter })
    ```
 
-## Limitations
+
 
 - **No Enums**: SQLite doesn't support enums (Prisma polyfills them or treats as String).
 - **No Scalar Lists**: `String[]` is not supported directly.
-- **Concurrency**: Write operations lock the file.
-
-## Common Issues
-
-### "Database file not found"
+- **Concurrency**: Write operations lock the file.
 Ensure the path in `DATABASE_URL` is correct relative to where Prisma is running or the schema file. `file:./dev.db` creates it next to schema.

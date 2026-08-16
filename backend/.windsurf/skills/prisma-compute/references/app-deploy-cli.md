@@ -1,8 +1,8 @@
-# Prisma Platform CLI App Deploy
+
 
 Use this reference for existing projects and for generated `compute:deploy` scripts.
 
-## Package and Command
+
 
 Compute app workflows are exposed through the Prisma Platform CLI package:
 
@@ -21,7 +21,7 @@ npx @prisma/cli@latest app deploy
 pnpm dlx @prisma/cli@latest app deploy
 ```
 
-## Agent Skill Installation
+
 
 `@prisma/cli` can install and refresh Prisma skills for local AI coding agents:
 
@@ -32,13 +32,9 @@ bunx @prisma/cli@latest agent update
 bunx @prisma/cli@latest agent status --json
 ```
 
-`agent install` and `agent update` shell out to `skills@latest add prisma/skills` through the detected package runner. Use them when the user wants Prisma's agent context installed or refreshed; they are not a deployment command.
+`agent install` and `agent update` shell out to `skills@latest add prisma/skills` through the detected package runner. Use them when the user wants Prisma's agent context installed or refreshed; they are not a deployment command.
 
-## Typed Compute Config
-
-`prisma.compute.ts` is optional for normal single-app deploys and useful for reusable defaults or multi-app targets. Read [`compute-config.md`](compute-config.md) for config shapes, target selection, precedence, and monorepo rules. This reference only shows how deploy commands consume those settings.
-
-## Auth and Project Binding
+`prisma.compute.ts` is optional for normal single-app deploys and useful for reusable defaults or multi-app targets. Read [`compute-config.md`](compute-config.md) for config shapes, target selection, precedence, and monorepo rules. This reference only shows how deploy commands consume those settings.
 
 Useful commands:
 
@@ -69,8 +65,7 @@ Use `auth workspace list --json`, then `auth workspace use <workspace-id>`.
 To clean up one local OAuth workspace without clearing every stored workspace session:
 
 ```bash
-bunx @prisma/cli@latest auth workspace logout <workspace-id-or-name>
-# equivalent:
+bunx @prisma/cli@latest auth workspace logout <workspace-id-or-name>
 bunx @prisma/cli@latest auth logout --workspace <workspace-id-or-name>
 ```
 
@@ -92,9 +87,7 @@ Local auth storage is useful for debugging but should not be printed verbatim:
 - On macOS, the default OAuth credentials file is `~/Library/Application Support/prisma/auth.json`.
 - Workspace metadata and the active workspace pointer live beside it as `auth.context.json`.
 - Project pins live in `.prisma/local.json`.
-- Local CLI state such as selected app and known live deployment lives in `.prisma/cli/state.json`, rooted near `prisma.compute.ts` when a config is discovered.
-
-## Project, Branch, Database, and Env Scope
+- Local CLI state such as selected app and known live deployment lives in `.prisma/cli/state.json`, rooted near `prisma.compute.ts` when a config is discovered.
 
 Compute deploys resolve a target project, app, and branch. Be explicit when the user's intent is not the already linked default project/app:
 
@@ -123,7 +116,7 @@ Do not assume a local Git branch was used by the CLI unless the generated script
 
 Promotion is a separate production action: `app promote <deployment-id>` rebuilds a deployment with production env vars. Do not treat a preview branch deploy as production promotion.
 
-## Deployment Story: GitHub vs CLI
+
 
 When a Compute app is connected to GitHub push-to-deploy, the default branch is the production deploy path. If a PR has been merged into `main` or another configured default branch, the natural answer is that the changes should appear in production after the production deployment completes; use CLI deploys for explicit manual deploys, local-source deploys, or repositories that are not using GitHub push-to-deploy.
 
@@ -133,7 +126,7 @@ When a Compute app is connected to GitHub push-to-deploy, the default branch is 
 
 `app deploy --region <region>` only applies when deploy creates a new app. Existing apps keep their current region. Use `prisma.compute.ts` `region` for a durable default, and use the flag only for one-off new-app placement.
 
-## Database and Env
+
 
 Create a Prisma Postgres database for the linked project:
 
@@ -163,9 +156,7 @@ Database and env guardrails:
 - Deploys do not run migrations, seed data, or schema push. Run the app's own Prisma database command after deploy setup when needed.
 - In deploy-all, every target on the same branch shares branch-scoped project env unless you assign app-specific env values yourself.
 - Existing database env values supplied through `--env DATABASE_URL=...`, `--env DIRECT_URL=...`, an env file, or project env should be treated as the source of truth.
-- Known non-PostgreSQL Prisma schema sources should not be wired to Prisma Postgres automatically.
-
-## Project Git, Branch, and Database Operations
+- Known non-PostgreSQL Prisma schema sources should not be wired to Prisma Postgres automatically.
 
 These commands are part of the same Platform CLI surface and often matter while preparing Compute deploys:
 
@@ -194,9 +185,7 @@ Git integration connects a Project to a GitHub repository. Console-side GitHub i
 
 For GitHub-driven deploys, inspect the Console/build-runner state, deployment records, build logs, or the `Prisma Compute Deploy` GitHub check run instead of assuming local CLI output exists. The build runner can perform branch-aware database/env wiring: a preview branch with a Prisma schema and no `DATABASE_URL` can get a branch-scoped preview database, while production can wire a missing `DATABASE_URL` template from an existing ready database. GitHub check runs are the guided feedback path; do not promise Vercel-style PR comments.
 
-Database and database-connection commands never print stored secret values in list/show output. `database create` and `database connection create` return a one-time connection URL; treat it as a secret, store it immediately in env if needed, and do not echo it back in summaries. Removal requires exact `--confirm <id>`; `--yes` is not enough.
-
-## Build and Run Locally
+Database and database-connection commands never print stored secret values in list/show output. `database create` and `database connection create` return a one-time connection URL; treat it as a secret, store it immediately in env if needed, and do not echo it back in summaries. Removal requires exact `--confirm <id>`; `--yes` is not enough.
 
 Before deploy, verify that the app can produce a Compute artifact:
 
@@ -228,9 +217,7 @@ bunx @prisma/cli@latest app run api --port 8080
 
 `app run --port` sets `PORT` for local development. It does not rewrite an app's explicit host binding, so a local run is not enough to prove the deployed server is reachable from ingress.
 
-`app run --build-type nestjs` is not supported. If a config-backed NestJS target is selected, run the Nest dev server directly instead.
-
-## Deploy
+`app run --build-type nestjs` is not supported. If a config-backed NestJS target is selected, run the Nest dev server directly instead.
 
 Deploy with prompts:
 
@@ -337,9 +324,7 @@ Config-backed Bun-style app:
 bunx @prisma/cli@latest app deploy api --prod --yes --env .env
 ```
 
-Use config for stable app defaults, and flags for one-off project, branch, region, env, and production choices. Keep database setup in explicit database and project-env commands.
-
-## Operations
+Use config for stable app defaults, and flags for one-off project, branch, region, env, and production choices. Keep database setup in explicit database and project-env commands.
 
 Inspect and open:
 
@@ -386,9 +371,7 @@ bunx @prisma/cli@latest app domain retry shop.example.com
 bunx @prisma/cli@latest app domain remove shop.example.com
 ```
 
-Custom domain commands target production branch runtime. Do not use a preview branch for production domain setup.
-
-## Output Handling
+Custom domain commands target production branch runtime. Do not use a preview branch for production domain setup.
 
 When `--json` is available, parse the JSON and summarize:
 

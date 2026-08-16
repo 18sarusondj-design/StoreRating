@@ -7,11 +7,11 @@ metadata:
   version: "1.1.0"
 ---
 
-# Prisma Postgres Setup
+
 
 Procedural skill that guides you through provisioning a new Prisma Postgres database via the Management API and connecting it to a local project.
 
-## When to Apply
+
 
 Use this skill when:
 
@@ -26,21 +26,17 @@ Do **not** use this skill when:
 - Building multi-tenant database provisioning into an app — use `prisma-postgres-integrator`
 - Working with a database that already exists and is connected (schema/migration tasks are standard Prisma CLI)
 
-## Prerequisites
+
 
 - Node.js 18+
-- A Prisma Postgres workspace (create one at https://console.prisma.io if needed)
+- A Prisma Postgres workspace (create one at https:
 - A workspace service token (see `references/auth.md`)
 
-## UX Guidelines
 
-When presenting choices to the user (region selection, project deletion, etc.), **use your platform's interactive selection mechanism** (e.g., `ask` tool in Claude Code, structured prompts in other agents). Do not print static tables and ask the user to type a value — present selectable options so the user can pick with minimal effort.
 
-## Workflow
+When presenting choices to the user (region selection, project deletion, etc.), **use your platform's interactive selection mechanism** (e.g., `ask` tool in Claude Code, structured prompts in other agents). Do not print static tables and ask the user to type a value — present selectable options so the user can pick with minimal effort.
 
-Follow these steps in order. Each step includes the API call to make and how to handle the response.
-
-### Step 1: Authenticate
+Follow these steps in order. Each step includes the API call to make and how to handle the response.
 
 You need a service token. Try these methods in order:
 
@@ -63,7 +59,7 @@ Read `references/auth.md` for details on service token creation.
 
 Once you have a token, store it in a shell variable (`PRISMA_SERVICE_TOKEN`) and use it for all subsequent API calls.
 
-### Step 2: List available regions
+
 
 Fetch the list of available Prisma Postgres regions to let the user choose where to deploy.
 
@@ -78,7 +74,7 @@ The response contains an array of regions with `id`, `name`, and `status`. Only 
 
 Read `references/endpoints.md` for the full response shape.
 
-### Step 3: Create a project with a database
+
 
 ```bash
 curl -s -X POST https://api.prisma.io/v1/projects \
@@ -105,9 +101,7 @@ If the response status is `provisioning`, wait a few seconds and poll `GET /v1/d
 
 **If creation fails due to a database limit**, list the user's existing projects and present them as an interactive menu for deletion. After the user picks one, delete it and retry.
 
-Read `references/endpoints.md` for the full request/response shapes.
-
-### Step 4: Create a named connection (optional)
+Read `references/endpoints.md` for the full request/response shapes.
 
 If you need a dedicated connection (e.g., per-developer or per-environment), create one:
 
@@ -118,9 +112,7 @@ curl -s -X POST https://api.prisma.io/v1/databases/<database-id>/connections \
   -d '{ "name": "dev" }'
 ```
 
-Extract the direct connection string from `data.endpoints.direct.connectionString`.
-
-### Step 5: Configure the local project
+Extract the direct connection string from `data.endpoints.direct.connectionString`.
 
 1. Install dependencies:
 
@@ -174,9 +166,7 @@ export default defineConfig({
 **Important Prisma 7 notes:**
 - Connection URLs go in `prisma.config.ts`, never in `schema.prisma`
 - The provider in `schema.prisma` must be `"postgresql"` (not `"prismaPostgres"`)
-- `dotenv/config` must be imported in `prisma.config.ts` to load `.env` variables
-
-### Step 6: Define schema and push
+- `dotenv/config` must be imported in `prisma.config.ts` to load `.env` variables
 
 If the schema already has models, skip to pushing. Otherwise, **present these options as an interactive menu**:
 
@@ -192,9 +182,7 @@ npx prisma migrate dev --name init
 
 This creates migration files in `prisma/migrations/` **and** generates the client in one step. Migration history is essential for CI/CD workflows (`prisma migrate deploy`) and production deployments.
 
-Only use `npx prisma db push` if the user explicitly asks for prototyping-only mode (no migration history). In that case, follow it with `npx prisma generate`.
-
-### Step 7: Verify the connection
+Only use `npx prisma db push` if the user explicitly asks for prototyping-only mode (no migration history). In that case, follow it with `npx prisma generate`.
 
 After generating the client, create and run a quick verification script to confirm everything works end-to-end. This is **critical** — do not skip this step.
 
@@ -238,9 +226,7 @@ Then share links for the user to explore their database:
 - **Prisma Studio (CLI):** `npx prisma studio` — opens a visual data browser locally
 - **Console:** `https://console.prisma.io/<workspaceId>/<projectId>/<databaseId>/dashboard` — strip the prefixes (`wksp_`, `proj_`, `db_`) from the IDs returned in Step 3 to build this URL
 
-Read `references/prisma7-client.md` for the full client instantiation reference.
-
-## Error Handling
+Read `references/prisma7-client.md` for the full client instantiation reference.
 
 Read `references/api-basics.md` for the full error reference. Key self-correction patterns:
 
@@ -249,9 +235,7 @@ Read `references/api-basics.md` for the full error reference. Key self-correctio
 | 401 | `authentication-failed` | Service token is invalid or expired. Ask the user to create a new one in Console → Workspace Settings → Service Tokens. |
 | 404 | `resource-not-found` | Check that the resource ID includes the correct prefix (`proj_`, `db_`, `con_`). |
 | 422 | `validation-error` | Check request body against the endpoint schema. Common: missing `name`, invalid `region`. |
-| 429 | `rate-limit-exceeded` | Back off and retry after a few seconds. |
-
-## Reference Files
+| 429 | `rate-limit-exceeded` | Back off and retry after a few seconds. |
 
 Detailed API and usage information is in:
 

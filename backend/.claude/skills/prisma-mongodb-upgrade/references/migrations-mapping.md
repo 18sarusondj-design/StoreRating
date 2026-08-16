@@ -1,26 +1,18 @@
-# migrations-mapping
 
-How the v6 MongoDB "no migrations" story maps onto Prisma Next's first-class migration flow.
 
-## Priority
+How the v6 MongoDB "no migrations" story maps onto Prisma Next's first-class migration flow.
 
-HIGH
-
-## Why It Matters
+HIGH
 
 This is the largest workflow change in the migration — in v6, MongoDB explicitly has no
 Prisma Migrate, while in Prisma Next MongoDB participates in the full migration lifecycle.
 Teams porting a `db push` habit into Next without understanding the plan/verify/sign flow
-will fight the tooling or bypass its safety rails.
-
-## v6: `db push` only
+will fight the tooling or bypass its safety rails.
 
 MongoDB on v6 has no Prisma Migrate and no plans to add it — "MongoDB projects do not rely
 on internal schemas" ([no support for Prisma Migrate](https://www.prisma.io/docs/orm/overview/databases/mongodb#no-support-for-prisma-migrate)).
 The workflow is `prisma db push` to sync indexes and unique constraints, with no migration
-history on disk.
-
-## Prisma Next: first-class, contract-driven migrations (Mongo included)
+history on disk.
 
 Migration authoring in Next is first-class for Postgres **and Mongo** (prisma-next
 `skills/prisma-next-migrations/SKILL.md`) — MongoDB is not a push-only special case:
@@ -44,14 +36,14 @@ Migration authoring in Next is first-class for Postgres **and Mongo** (prisma-ne
 - Validators: Next emits closed `$jsonSchema` validators by default since 0.12 (prisma-next
   `CHANGELOG.md`) — collections gain schema enforcement v6 never applied.
 
-## Bad
+
 
 ```text
 Porting the v6 habit: run the Next equivalent of `db push` for every change in production,
 accumulating no migration history, and hand-editing collections when verification fails.
 ```
 
-## Good
+
 
 ```text
 Adopt the Next lifecycle: emit the contract, plan a migration package, apply it with
@@ -59,7 +51,7 @@ migrate, let verify gate the marker, and sign. Reserve `db update` for local pro
 mirroring how `db push` was used on v6.
 ```
 
-## References
 
-- [v6: no Prisma Migrate for MongoDB](https://www.prisma.io/docs/orm/overview/databases/mongodb#no-support-for-prisma-migrate)
+
+- [v6: no Prisma Migrate for MongoDB](https:
 - Prisma Next migrations skill (`skills/prisma-next-migrations`) — authoritative for the Next side; verified @ `a2791c5dd59d579b4b3052942ae7f8fe5e2ee852`

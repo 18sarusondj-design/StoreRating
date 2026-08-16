@@ -1,8 +1,8 @@
-# Troubleshooting Prisma Compute
+
 
 Use this reference when setup, build, deploy, env, or runtime behavior fails.
 
-## First Checks
+
 
 Run:
 
@@ -24,7 +24,7 @@ test -f .env && sed -n 's/=.*/=<redacted>/p' .env
 
 Do not print unredacted secrets.
 
-## `prisma.compute.ts` Not Picked Up
+
 
 This only matters when the project is supposed to use a config-backed deploy. A simple app without `prisma.compute.ts` can still deploy with explicit `app deploy` flags.
 
@@ -50,7 +50,7 @@ Fix:
 - use `[app]` targets from the `apps` keys, such as `bunx @prisma/cli@latest app deploy api`
 - remember that config-relative paths such as `root` and `env.file` resolve from the config file directory
 
-## Compute Config Invalid
+
 
 Symptoms:
 
@@ -84,7 +84,7 @@ export default defineComputeConfig({
 });
 ```
 
-## `create-prisma --yes` Did Not Deploy
+
 
 `--yes` skips prompts and does not opt into deploy. Pass `--deploy` explicitly:
 
@@ -94,7 +94,7 @@ bunx create-prisma@latest --name my-api --template hono --provider postgresql --
 
 If the integrated deploy cannot complete, scaffold succeeds but deploy should be reported as failed.
 
-## Accidental Prisma Postgres Provisioning
+
 
 With PostgreSQL, no `--database-url`, and no `--no-prisma-postgres`, setup can provision Prisma Postgres. For local smoke tests, pass:
 
@@ -104,7 +104,7 @@ With PostgreSQL, no `--database-url`, and no `--no-prisma-postgres`, setup can p
 
 Use a disposable real database URL if Prisma commands need to run.
 
-## Auth Fails
+
 
 Symptoms:
 
@@ -138,8 +138,7 @@ If the active workspace was logged out or its token refresh failed, the CLI inte
 To remove only one local OAuth workspace session:
 
 ```bash
-bunx @prisma/cli@latest auth workspace logout <workspace-id-or-name>
-# or:
+bunx @prisma/cli@latest auth workspace logout <workspace-id-or-name>
 bunx @prisma/cli@latest auth logout --workspace <workspace-id-or-name>
 ```
 
@@ -167,7 +166,7 @@ Local storage hints for debugging:
 
 Do not print credential files or token values into logs.
 
-## Project Setup Fails
+
 
 Symptoms:
 
@@ -184,7 +183,7 @@ bunx @prisma/cli@latest app deploy --create-project <name> --yes
 
 Do not rely on `--yes` alone to choose Project scope. `--project`, `--create-project`, and `PRISMA_PROJECT_ID` are mutually exclusive.
 
-## Missing or Placeholder `DATABASE_URL`
+
 
 Symptoms:
 
@@ -206,9 +205,7 @@ test -f prisma.config.ts && sed -n '1,160p' prisma.config.ts
 test -f prisma/schema.prisma && sed -n '1,220p' prisma/schema.prisma
 ```
 
-Never deploy `postgresql://USER:PASSWORD@HOST:PORT/DATABASE` placeholder values.
-
-## Wrong Branch, Env, or Database
+Never deploy `postgresql://USER:PASSWORD@HOST:PORT/DATABASE` placeholder values.
 
 Symptoms:
 
@@ -235,9 +232,7 @@ Fix:
 - capture the deployment id and URL from deploy JSON, then inspect logs with `app logs --deployment <deployment-id>`
 - `app show`, `app list-deploys`, and `app logs` do not filter by branch; capture and use the deployment id
 - treat `app promote <deployment-id>` as a production action because it rebuilds with production env vars
-- do not expect `prisma.compute.ts` to select Project, Branch, production, or database scope; it only supplies app deploy defaults
-
-## Database Wiring or Schema Did Not Apply
+- do not expect `prisma.compute.ts` to select Project, Branch, production, or database scope; it only supplies app deploy defaults
 
 Symptoms:
 
@@ -250,15 +245,11 @@ Fix:
 - read [`app-deploy-cli.md`](app-deploy-cli.md) `Database and Env` for the database/env guardrails
 - create and assign database env vars explicitly for the intended branch/app scope
 - run migrations, seed, or schema push yourself after database setup; Compute never applies schema changes for you
-- for multi-app deploy-all with app-specific database isolation, create and assign those database env vars explicitly before deploy
-
-## Workspace plan limit reached
+- for multi-app deploy-all with app-specific database isolation, create and assign those database env vars explicitly before deploy
 
 When the installed CLI returns `PLAN_LIMIT_REACHED`, treat it as a workspace plan restriction rather than a Compute or database outage.
 
-For agent/CI handling, run the relevant database command with `--json` and branch on `error.code === "PLAN_LIMIT_REACHED"`. Read `error.meta.upgradeUrl`, `planName`, `workspaceId`, and `usageBlocked`; optional values may be `null`. This is a workspace plan restriction rather than a Compute/database outage. Use the canonical upgrade URL when returned or direct the user to Prisma Console. Do not retry as an outage or infer a plan limit from status codes or message text.
-
-## Next.js Standalone Missing
+For agent/CI handling, run the relevant database command with `--json` and branch on `error.code === "PLAN_LIMIT_REACHED"`. Read `error.meta.upgradeUrl`, `planName`, `workspaceId`, and `usageBlocked`; optional values may be `null`. This is a workspace plan restriction rather than a Compute/database outage. Use the canonical upgrade URL when returned or direct the user to Prisma Console. Do not retry as an outage or infer a plan limit from status codes or message text.
 
 Error shape:
 
@@ -276,9 +267,7 @@ const nextConfig = {
 export default nextConfig
 ```
 
-Then reinstall/build if needed and deploy again.
-
-## Next.js dependency missing after a successful build
+Then reinstall/build if needed and deploy again.
 
 Symptoms in pnpm/Bun isolated workspaces can include a deployment that builds successfully but exits before useful runtime logs, often with `Cannot find module` for `styled-jsx` or another traced dependency.
 
@@ -289,9 +278,7 @@ Fix:
 1. Upgrade `@prisma/compute-sdk` and `@prisma/cli` to current versions.
 2. Remove only the generated build artifact/cache appropriate to the project, then rebuild.
 3. Confirm `output: "standalone"`, redeploy, and inspect the new deployment logs.
-4. If it persists, report the package manager, workspace layout, first missing module, and SDK/CLI versions through `@prisma/cli feedback` without secrets.
-
-## Nitro Entry Missing
+4. If it persists, report the package manager, workspace layout, first missing module, and SDK/CLI versions through `@prisma/cli feedback` without secrets.
 
 Nuxt or TanStack Start error shape:
 
@@ -314,9 +301,7 @@ For TanStack Start specifically:
 - run `bun run build` and verify `.output/server/index.mjs` exists
 - do not replace the production server with `vite preview`
 
-Compute detection selects TanStack Start when it sees `@tanstack/react-start` or `@tanstack/solid-start`. If the Nitro entrypoint is missing after that, fix the TanStack/Nitro build output; do not assume Compute will silently use a Bun deployment.
-
-## Bun Entrypoint Missing
+Compute detection selects TanStack Start when it sees `@tanstack/react-start` or `@tanstack/solid-start`. If the Nitro entrypoint is missing after that, fix the TanStack/Nitro build output; do not assume Compute will silently use a Bun deployment.
 
 Error shape:
 
@@ -337,9 +322,7 @@ or deploy with:
 
 ```bash
 bunx @prisma/cli@latest app deploy --framework bun --entry src/index.ts
-```
-
-## Port Mismatch
+```
 
 Symptoms:
 
@@ -353,9 +336,7 @@ Fix:
 - pass `--http-port <port>` when the app has a fixed port
 - use the generated `compute:deploy` script when it exists
 - remember the `@prisma/cli app deploy` default is HTTP `3000`; generated Hono/Elysia projects usually configure `8080` through `prisma.compute.ts` or flag-backed `--http-port 8080` scripts
-- use the template defaults: Hono/Elysia `8080`, Next/TanStack/Nuxt `3000`, Astro `4321`
-
-## Public URL Smoke Test Fails
+- use the template defaults: Hono/Elysia `8080`, Next/TanStack/Nuxt `3000`, Astro `4321`
 
 Symptoms:
 
@@ -375,9 +356,7 @@ Fix by following the first concrete failure:
 
 - connection timeout or 5xx: check logs, host binding, and port mapping
 - unexpected status or body: verify the route path and app framework output
-- local URL tested by mistake: rerun against the public deployment URL, not `localhost` or `127.0.0.1`
-
-## Localhost Binding
+- local URL tested by mistake: rerun against the public deployment URL, not `localhost` or `127.0.0.1`
 
 Symptoms:
 
@@ -396,7 +375,7 @@ Fix:
 - for Next.js standalone, do not deploy with `HOSTNAME=localhost`; use `HOSTNAME=0.0.0.0` if the host is overridden
 - keep port and host fixes together: `0.0.0.0:<deployed-http-port>`
 
-## Env Changes Did Not Apply
+
 
 Generated `compute:deploy` scripts redeploy using the generated flags and/or `prisma.compute.ts`; they do not run migrations or seed data.
 
@@ -411,7 +390,7 @@ bunx @prisma/cli@latest app deploy --branch feature/foo --env .env.preview
 
 If using branch-specific env, confirm the branch name and role.
 
-## Need Logs
+
 
 Runtime logs for the current app:
 
@@ -443,7 +422,7 @@ Use `build logs` for build output keyed by a Build id from a GitHub check run, C
 
 Summarize relevant errors. Do not paste secrets.
 
-## Report Unresolved CLI Issues
+
 
 When a CLI failure survives the checks above, or a command crashes with `UNEXPECTED_ERROR`, report it to the Prisma team:
 

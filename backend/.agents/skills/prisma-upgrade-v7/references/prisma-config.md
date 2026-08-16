@@ -1,12 +1,12 @@
-# Prisma Config
+
 
 Prisma v7 introduces `prisma.config.ts` as the central configuration file for the Prisma CLI.
 
-## Location
+
 
 Place `prisma.config.ts` at your project root (next to `package.json`).
 
-## Basic Configuration
+
 
 ```typescript
 import 'dotenv/config'
@@ -23,9 +23,9 @@ export default defineConfig({
 })
 ```
 
-## Configuration Options
 
-### schema
+
+
 
 Path to your Prisma schema file:
 
@@ -33,7 +33,7 @@ Path to your Prisma schema file:
 schema: 'prisma/schema.prisma'
 ```
 
-### datasource.url
+
 
 Database connection URL:
 
@@ -43,7 +43,7 @@ datasource: {
 }
 ```
 
-### datasource.directUrl
+
 
 Direct connection URL (bypassing connection pooler):
 
@@ -54,7 +54,7 @@ datasource: {
 }
 ```
 
-### datasource.shadowDatabaseUrl
+
 
 Shadow database for migrations:
 
@@ -65,7 +65,7 @@ datasource: {
 }
 ```
 
-### migrations.path
+
 
 Directory for migration files:
 
@@ -75,7 +75,7 @@ migrations: {
 }
 ```
 
-### migrations.seed
+
 
 Seed command for `prisma db seed`:
 
@@ -86,23 +86,18 @@ migrations: {
 }
 ```
 
-## Full Example
+
 
 ```typescript
 import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
-export default defineConfig({
-  // Schema location
-  schema: 'prisma/schema.prisma',
-  
-  // Migration configuration
+export default defineConfig({
+  schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
     seed: 'tsx prisma/seed.ts',
-  },
-  
-  // Database connection
+  },
   datasource: {
     url: env('DATABASE_URL'),
     directUrl: env('DIRECT_DATABASE_URL'),
@@ -111,9 +106,9 @@ export default defineConfig({
 })
 ```
 
-## Environment Variables
 
-### The env() helper
+
+
 
 Use `env()` to reference environment variables:
 
@@ -127,7 +122,7 @@ datasource: {
 
 This provides type safety but does NOT load .env files automatically.
 
-### Loading .env files
+
 
 Install and import dotenv:
 
@@ -140,9 +135,9 @@ import 'dotenv/config'  // Must be first import
 import { defineConfig, env } from 'prisma/config'
 ```
 
-## Migrating from v6
 
-### Before (v6) - schema.prisma
+
+
 
 ```prisma
 datasource db {
@@ -152,7 +147,7 @@ datasource db {
 }
 ```
 
-### After (v7) - prisma.config.ts
+
 
 ```typescript
 import 'dotenv/config'
@@ -171,12 +166,11 @@ And update schema.prisma:
 
 ```prisma
 datasource db {
-  provider = "postgresql"
-  // URLs now in prisma.config.ts
+  provider = "postgresql"
 }
 ```
 
-## Custom Config Path
+
 
 Use `--config` flag with CLI commands:
 
@@ -184,7 +178,7 @@ Use `--config` flag with CLI commands:
 prisma migrate dev --config ./config/prisma.config.ts
 ```
 
-## Monorepo Configuration
+
 
 ```typescript
 import 'dotenv/config'

@@ -1,26 +1,26 @@
-# verify-cutover-checklist
+
 
 Verification checklist for a v6 → Prisma Next cutover: the data never moves — only the code does.
 
-## Priority
+
 
 CRITICAL
 
-## Why It Matters
+
 
 A v6 → Next migration is a *client and workflow* migration against the **same MongoDB
 database** — there is no data export/import step, and introducing one (or pointing the new
 stack at a fresh database) turns a code migration into an outage. The checklist below keeps
 the cutover observable and reversible.
 
-## Ground rules
+
 
 - **No data moves.** The Next contract is authored to describe the existing collections;
   both stacks read the same database during the staged phase.
 - **v6 stays runnable until cutover is verified.** Do not delete the v6 client, schema, or
   dependencies until the checklist passes.
 
-## Checklist
+
 
 1. **Same database, verified:** the Next config points at the same connection string /
    database name the v6 app uses (minus v6-specific URL parameters that the `mongodb@^7`
@@ -54,7 +54,7 @@ the cutover observable and reversible.
 After cutover, install and follow Prisma Next's own skills for ongoing work (see the
 hand-off rule in `SKILL.md`).
 
-## References
 
-- [v6 MongoDB documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb)
+
+- [v6 MongoDB documentation](https:
 - Prisma Next migrations + queries skills — authoritative for the Next side; verified @ `a2791c5dd59d579b4b3052942ae7f8fe5e2ee852`

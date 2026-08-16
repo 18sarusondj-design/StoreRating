@@ -1,21 +1,19 @@
-# prisma db push
+
 
 Pushes schema changes directly to database without creating migrations. Ideal for prototyping.
 
-## Command
+
 
 ```bash
 prisma db push [options]
 ```
 
-## What It Does
+
 
 - Syncs your Prisma schema to the database
 - Creates database if it doesn't exist
 - Does NOT create migration files
-- Does NOT track migration history
-
-## Options
+- Does NOT track migration history
 
 | Option | Description |
 |--------|-------------|
@@ -25,57 +23,39 @@ prisma db push [options]
 | `--config` | Custom path to your Prisma config file |
 | `--url` | Override the datasource URL from the Prisma config file |
 
-When Prisma detects an AI agent, `--force-reset` and `--accept-data-loss` require explicit user consent. Follow `agent-safety.md`; never infer or fabricate the consent text.
+When Prisma detects an AI agent, `--force-reset` and `--accept-data-loss` require explicit user consent. Follow `agent-safety.md`; never infer or fabricate the consent text.
 
-### Follow-up Command
-
-- Run `prisma generate` explicitly when you need refreshed client output
-
-## Examples
-
-### Basic push
+- Run `prisma generate` explicitly when you need refreshed client output
 
 ```bash
 prisma db push
-```
-
-### Accept data loss
+```
 
 ```bash
 prisma db push --accept-data-loss
 ```
 
-Required when changes would delete data (dropping columns, etc.)
-
-### Force reset
+Required when changes would delete data (dropping columns, etc.)
 
 ```bash
 prisma db push --force-reset
 ```
 
-Completely resets database and applies schema.
-
-### Full workflow
+Completely resets database and applies schema.
 
 ```bash
 prisma db push
 prisma generate
-```
-
-## When to Use
+```
 
 - **Prototyping** - Rapid schema iteration
 - **Local development** - Quick schema changes
 - **MongoDB** - Primary workflow (migrations not supported)
-- **Testing** - Setting up test databases
-
-## When NOT to Use
+- **Testing** - Setting up test databases
 
 - **Production** - Use `migrate deploy`
 - **Team collaboration** - Use migrations for trackable changes
-- **When you need rollback** - Migrations provide history
-
-## Comparison with migrate dev
+- **When you need rollback** - Migrations provide history
 
 | Feature | db push | migrate dev |
 |---------|---------|-------------|
@@ -84,44 +64,32 @@ prisma generate
 | Requires shadow database | No | Yes |
 | Speed | Faster | Slower |
 | Rollback capability | No | Yes |
-| Best for | Prototyping | Development |
-
-## MongoDB Workflow
+| Best for | Prototyping | Development |
 
 MongoDB doesn't support migrations. Use `db push` exclusively:
 
-```bash
-# Schema changes for MongoDB
+```bash
 prisma db push
 prisma generate
 ```
 
-## Common Patterns
 
-### Prototyping workflow
 
-```bash
-# Make schema changes
-# ...
 
-# Push to database
-prisma db push
 
-# Generate client
-prisma generate
-
-# Test your changes
-# Repeat as needed
+```bash
+prisma db push
+prisma generate
 ```
 
-### Reset and start fresh
+
 
 ```bash
 prisma db push --force-reset
 prisma db seed
 ```
 
-### Handling conflicts
+
 
 If `db push` can't apply changes safely:
 
@@ -136,14 +104,11 @@ Decide whether data loss is acceptable, then:
 
 ```bash
 prisma db push --accept-data-loss
-```
-
-## Transition to Migrations
+```
 
 When ready for production, switch to migrations:
 
-```bash
-# Create baseline migration from current schema
+```bash
 prisma migrate dev --name init
 ```
 

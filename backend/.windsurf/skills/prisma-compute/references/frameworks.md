@@ -1,8 +1,8 @@
-# Prisma Compute Framework Readiness
+
 
 Use this reference when deciding whether and how an app can deploy to Prisma Compute.
 
-## CLI-First Model
+
 
 Treat `@prisma/cli app deploy` as the deployment surface. Treat `create-prisma` as a new-project scaffold that can generate useful defaults and, for some templates, a `compute:deploy` script.
 
@@ -32,7 +32,7 @@ Auto-detection:
 
 If detection is ambiguous, set `framework` in `prisma.compute.ts` or pass a supported `--framework` value. If the app is a source-level plain server, use `framework: "bun"` plus `entry`, or pass `--framework bun --entry <path>`, after verifying the server entrypoint. If the app already produces a runnable Node artifact, use `framework: "custom"` with `build.outputDirectory` and `build.entrypoint`.
 
-## CLI Matrix
+
 
 | App shape | Deploy command shape | Auto-detected | Required output/entry | Notes |
 |-----------|----------------------|---------------|-----------------------|-------|
@@ -60,7 +60,7 @@ Config snippets below assume:
 import { defineComputeConfig } from "@prisma/compute-sdk/config";
 ```
 
-## Universal Runtime Requirements
+
 
 Compute needs a server process:
 
@@ -70,9 +70,7 @@ Compute needs a server process:
 - It must not rely on a preview-only command such as `vite preview`.
 - It must receive env vars through `--env`, project env, branch env, or external automation.
 
-Check host and port together. A listener on the right port but bound to loopback can appear ready while public ingress cannot reach it.
-
-## Next.js
+Check host and port together. A listener on the right port but bound to loopback can appear ready while public ingress cannot reach it.
 
 Deploy shape:
 
@@ -94,9 +92,7 @@ export default nextConfig
 
 Do not pass `--entry` with `nextjs`; the CLI derives the runtime entrypoint from framework build output.
 
-Do not set `HOSTNAME=localhost` or `HOSTNAME=127.0.0.1` in deploy env. If the standalone server host is overridden, use `0.0.0.0`.
-
-## Hono
+Do not set `HOSTNAME=localhost` or `HOSTNAME=127.0.0.1` in deploy env. If the standalone server host is overridden, use `0.0.0.0`.
 
 Deploy shape:
 
@@ -134,9 +130,7 @@ const rawPort = (process.env.PORT ?? "").trim()
 const parsedPort = rawPort.length > 0 ? Number(rawPort) : Number.NaN
 const port = Number.isInteger(parsedPort) ? parsedPort : 8080
 serve({ fetch: app.fetch, port })
-```
-
-## NestJS
+```
 
 Deploy shape:
 
@@ -168,9 +162,7 @@ Example runtime shape:
 ```typescript
 const port = Number(process.env.PORT ?? "3000")
 await app.listen(port)
-```
-
-## TanStack Start
+```
 
 Deploy shape:
 
@@ -214,7 +206,7 @@ Do not deploy TanStack Start as a Bun entrypoint such as `src/router.tsx`. If `.
 
 Make sure Nitro does not bind only to localhost in deployment. If host env/config is customized, use the framework's all-interface host setting rather than `localhost`.
 
-## Nuxt
+
 
 Deploy shape:
 
@@ -235,7 +227,7 @@ export default defineComputeConfig({
 
 Nuxt uses Nitro output at `.output/server/index.mjs`. Keep the Nitro preset compatible with a Node server runtime.
 
-## Astro
+
 
 Deploy shape:
 
@@ -268,7 +260,7 @@ export default defineConfig({
 })
 ```
 
-## Bun, Elysia, and Plain Source Servers
+
 
 Use the Bun deploy key for app shapes without a dedicated `--framework` value:
 
@@ -296,7 +288,7 @@ const port = Number(process.env.PORT ?? "8080")
 app.listen({ port, hostname: "0.0.0.0" })
 ```
 
-## Custom Build Artifacts
+
 
 Use `framework: "custom"` when the app is already built, or when a custom command produces a runnable Node artifact that Compute should stage as-is:
 
@@ -322,7 +314,7 @@ Requirements:
 - ensure the artifact starts an HTTP server and binds on all interfaces
 - use `command: null` only when the output directory already contains the deployable artifact
 
-## SvelteKit and Other Frameworks
+
 
 `@prisma/cli app deploy --framework` has no `svelte` framework key. Do not claim SvelteKit is directly deployable with that name.
 
@@ -333,7 +325,7 @@ For frameworks without a dedicated deploy key, use one of these paths:
 
 SvelteKit should use a Node adapter or another production server artifact. Do not use `vite preview` as the deployed runtime.
 
-## Turborepo
+
 
 Deploy concrete app packages, not the monorepo root by default. Prefer `prisma.compute.ts` at the repo root with one `apps` entry per deploy target.
 

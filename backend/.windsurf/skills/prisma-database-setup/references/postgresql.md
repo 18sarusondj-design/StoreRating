@@ -1,13 +1,13 @@
-# PostgreSQL Setup
+
 
 Configure Prisma with PostgreSQL.
 
-## Prerequisites
+
 
 - PostgreSQL database (local or cloud)
 - Connection string
 
-## 1. Schema Configuration
+
 
 In `prisma/schema.prisma`:
 
@@ -22,7 +22,7 @@ generator client {
 }
 ```
 
-## 2. Config Configuration
+
 
 In `prisma.config.ts`:
 
@@ -37,7 +37,7 @@ export default defineConfig({
 })
 ```
 
-## 3. Environment Variable
+
 
 In `.env`:
 
@@ -45,7 +45,7 @@ In `.env`:
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 ```
 
-### Connection String Format
+
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
@@ -58,7 +58,7 @@ postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
 - **DATABASE**: Database name
 - **SCHEMA**: Schema name (default `public`)
 
-## Driver Adapter
+
 
 Use a driver adapter for the standard SQL workflow.
 
@@ -77,16 +77,16 @@ Use a driver adapter for the standard SQL workflow.
    const prisma = new PrismaClient({ adapter })
    ```
 
-## Common Issues
 
-### "Can't reach database server"
+
+
 - Check host and port
 - Check firewall settings
 - Ensure database is running
 
-### "Authentication failed"
+
 - Check user/password
 - Special characters in password must be URL-encoded
 
-### "Schema does not exist"
+
 - Ensure `?schema=public` (or your schema) is in the URL

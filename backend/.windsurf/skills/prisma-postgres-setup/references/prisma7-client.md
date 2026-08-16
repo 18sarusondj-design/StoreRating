@@ -1,8 +1,8 @@
-# Prisma 7 Client Instantiation
+
 
 Prisma 7 changed how PrismaClient connects to databases. The CLI (`prisma db push`, `prisma migrate`) reads the URL from `prisma.config.ts`. But at **runtime**, you must provide a driver adapter to PrismaClient explicitly.
 
-## Required packages
+
 
 ```bash
 npm install @prisma/client @prisma/adapter-pg pg
@@ -11,7 +11,7 @@ npm install @prisma/client @prisma/adapter-pg pg
 - `@prisma/adapter-pg` — the Prisma adapter for the `pg` PostgreSQL driver
 - `pg` — the underlying Node.js PostgreSQL driver
 
-## Basic instantiation
+
 
 ```typescript
 import 'dotenv/config'
@@ -24,7 +24,7 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Key rules
+
 
 1. **Import path**: Always `./generated/prisma/client.js` — not `./generated/prisma` and not `@prisma/client`.
 
@@ -34,7 +34,7 @@ const prisma = new PrismaClient({ adapter })
 
 4. **Pool lifecycle**: Call `await pool.end()` when shutting down (after `prisma.$disconnect()`).
 
-## Usage in application code
+
 
 ```typescript
 import 'dotenv/config'
@@ -44,34 +44,24 @@ import { PrismaClient } from './generated/prisma/client.js'
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL })
 const adapter = new PrismaPg(pool)
-const prisma = new PrismaClient({ adapter })
-
-// Create
+const prisma = new PrismaClient({ adapter })
 const user = await prisma.user.create({
   data: { email: 'alice@example.com', name: 'Alice' },
-})
-
-// Read with relations
+})
 const posts = await prisma.post.findMany({
   where: { published: true },
   include: { author: true },
-})
-
-// Update
+})
 await prisma.post.update({
   where: { id: 1 },
   data: { published: true },
-})
-
-// Delete
-await prisma.post.delete({ where: { id: 1 } })
-
-// Cleanup
+})
+await prisma.post.delete({ where: { id: 1 } })
 await prisma.$disconnect()
 await pool.end()
 ```
 
-## Common mistakes
+
 
 | Mistake | Error | Fix |
 |---|---|---|

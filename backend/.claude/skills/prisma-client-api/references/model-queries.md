@@ -1,10 +1,10 @@
-# Model Queries
+
 
 CRUD operations for your Prisma models.
 
-## Read Operations
 
-### findUnique
+
+
 
 Find a single record by unique field:
 
@@ -18,10 +18,9 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-#### With composite unique key
 
-```typescript
-// Model with @@unique([firstName, lastName])
+
+```typescript
 const user = await prisma.user.findUnique({
   where: {
     firstName_lastName: {
@@ -32,18 +31,17 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### findUniqueOrThrow
+
 
 Same as findUnique but throws if not found:
 
 ```typescript
 const user = await prisma.user.findUniqueOrThrow({
   where: { id: 1 }
-})
-// Throws PrismaClientKnownRequestError if not found
+})
 ```
 
-### findFirst
+
 
 Find first matching record:
 
@@ -54,7 +52,7 @@ const user = await prisma.user.findFirst({
 })
 ```
 
-### findFirstOrThrow
+
 
 ```typescript
 const user = await prisma.user.findFirstOrThrow({
@@ -62,7 +60,7 @@ const user = await prisma.user.findFirstOrThrow({
 })
 ```
 
-### findMany
+
 
 Find multiple records:
 
@@ -75,9 +73,9 @@ const users = await prisma.user.findMany({
 })
 ```
 
-## Create Operations
 
-### create
+
+
 
 Create a single record:
 
@@ -90,7 +88,7 @@ const user = await prisma.user.create({
 })
 ```
 
-#### With relations
+
 
 ```typescript
 const user = await prisma.user.create({
@@ -107,7 +105,7 @@ const user = await prisma.user.create({
 })
 ```
 
-### createMany
+
 
 Create multiple records:
 
@@ -118,11 +116,10 @@ const result = await prisma.user.createMany({
     { email: 'bob@prisma.io', name: 'Bob' }
   ],
   skipDuplicates: true  // Skip records with duplicate unique fields
-})
-// Returns { count: 2 }
+})
 ```
 
-### createManyAndReturn
+
 
 Create multiple and return them:
 
@@ -132,13 +129,12 @@ const users = await prisma.user.createManyAndReturn({
     { email: 'alice@prisma.io', name: 'Alice' },
     { email: 'bob@prisma.io', name: 'Bob' }
   ]
-})
-// Returns array of created users
+})
 ```
 
-## Update Operations
 
-### update
+
+
 
 Update a single record:
 
@@ -149,7 +145,7 @@ const user = await prisma.user.update({
 })
 ```
 
-#### Atomic operations
+
 
 ```typescript
 const post = await prisma.post.update({
@@ -164,7 +160,7 @@ const post = await prisma.post.update({
 })
 ```
 
-### updateMany
+
 
 Update multiple records:
 
@@ -172,21 +168,19 @@ Update multiple records:
 const result = await prisma.user.updateMany({
   where: { role: 'USER' },
   data: { verified: true }
-})
-// Returns { count: 42 }
+})
 ```
 
-### updateManyAndReturn
+
 
 ```typescript
 const users = await prisma.user.updateManyAndReturn({
   where: { role: 'USER' },
   data: { verified: true }
-})
-// Returns array of updated users
+})
 ```
 
-### upsert
+
 
 Update or create:
 
@@ -198,36 +192,32 @@ const user = await prisma.user.upsert({
 })
 ```
 
-## Delete Operations
 
-### delete
+
+
 
 Delete a single record:
 
 ```typescript
 const user = await prisma.user.delete({
   where: { id: 1 }
-})
-// Returns deleted record
+})
 ```
 
-### deleteMany
+
 
 Delete multiple records:
 
 ```typescript
 const result = await prisma.user.deleteMany({
   where: { role: 'GUEST' }
-})
-// Returns { count: 5 }
-
-// Delete all
+})
 const result = await prisma.user.deleteMany({})
 ```
 
-## Aggregation Operations
 
-### count
+
+
 
 ```typescript
 const count = await prisma.user.count({
@@ -235,7 +225,7 @@ const count = await prisma.user.count({
 })
 ```
 
-### aggregate
+
 
 ```typescript
 const result = await prisma.post.aggregate({
@@ -247,7 +237,7 @@ const result = await prisma.post.aggregate({
 })
 ```
 
-### groupBy
+
 
 ```typescript
 const groups = await prisma.user.groupBy({
@@ -260,7 +250,7 @@ const groups = await prisma.user.groupBy({
 })
 ```
 
-## Return Types
+
 
 | Method | Returns |
 |--------|---------|

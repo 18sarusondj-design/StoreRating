@@ -7,18 +7,18 @@ metadata:
   version: "7.9.1"
 ---
 
-# Prisma SQL Driver Adapter Implementation
+
 
 Use this guide with the exact `@prisma/driver-adapter-utils` version installed by the target Prisma release. Driver adapters are a protocol boundary: type-compatible code can still corrupt values, leak connections, or break transactions.
 
-## When to Apply
+
 
 - Implementing `SqlDriverAdapterFactory`, `SqlMigrationAwareDriverAdapterFactory`, `SqlDriverAdapter`, or `Transaction`
 - Adding nested-transaction/savepoint support
 - Mapping driver values, column metadata, bind arguments, or database errors
 - Debugging `P2039`, transaction leaks, shadow-database failures, or adapter-specific query behavior
 
-## Contract snapshot
+
 
 ```typescript
 interface SqlDriverAdapterFactory extends AdapterInfo {
@@ -52,7 +52,7 @@ interface Transaction extends AdapterInfo {
 
 `IsolationLevel` currently includes `READ UNCOMMITTED`, `READ COMMITTED`, `REPEATABLE READ`, `SNAPSHOT`, and `SERIALIZABLE`; validate what the concrete database supports.
 
-## Priority rules
+
 
 | Priority | Rule | Impact |
 |----------|------|--------|
@@ -64,7 +64,7 @@ interface Transaction extends AdapterInfo {
 | HIGH | Shadow databases are isolated and always cleaned up | Makes Migrate safe |
 | HIGH | Dispose only resources the adapter owns | Prevents shutting down caller-owned pools |
 
-## Query implementation
+
 
 `SqlQuery` contains `sql`, `args`, and parallel `argTypes`. Map each argument using both value and `ArgType`; do not discard type/arity information. Execute in the driver's array/tuple row mode so column order is stable.
 
@@ -107,9 +107,7 @@ class ExampleQueryable {
     }
   }
 }
-```
-
-### Result mapping
+```
 
 Return `columnNames`, `columnTypes`, and `rows` with identical lengths/order. Map driver metadata to `ColumnTypeEnum` deliberately:
 
@@ -120,13 +118,11 @@ Return `columnNames`, `columnTypes`, and `rows` with identical lengths/order. Ma
 - UUID, JSON, enum, arrays, and provider-specific unknown values to their explicit types
 - unsupported native types to `DriverAdapterError({ kind: 'UnsupportedNativeDataType', type })`
 
-Test `null`, empty arrays, array element types, big integers, decimals, byte arrays, JSON, dates, and user-defined/unknown native types.
-
-### Script execution
+Test `null`, empty arrays, array element types, big integers, decimals, byte arrays, JSON, dates, and user-defined/unknown native types.
 
 `executeScript` must execute a migration script as the provider expects. Prefer the driver's native multi-statement/script facility or a real SQL parser. Naively splitting on `;` breaks functions, triggers, quoted strings, and dialect-specific blocks.
 
-## Transaction protocol
+
 
 `startTransaction` must acquire one dedicated connection, start the database transaction, apply the requested isolation level, and return a `Transaction` bound to that same connection. If setup fails, release it immediately.
 
@@ -151,14 +147,13 @@ async startTransaction(level?: IsolationLevel): Promise<Transaction> {
 }
 ```
 
-### Commit and rollback
+
 
 Prisma coordinates the SQL `COMMIT`/`ROLLBACK` through `executeRaw`. The transaction object's `commit()` and `rollback()` methods are lifecycle hooks: detach listeners and release the dedicated connection exactly once. They must not issue a second SQL commit/rollback.
 
 ```typescript
 class ExampleTransaction extends ExampleQueryable implements Transaction {
-  readonly options = { usePhantomQuery: false }
-  #closed = false
+  readonly options = { usePhantomQuery: false }
 
   constructor(connection: DriverConnection, private readonly release: () => void) {
     super(connection)
@@ -195,7 +190,7 @@ Implement the optional savepoint methods only where the provider supports them. 
 
 Never keep transaction depth on the shared adapter. Parallel transactions make adapter-global depth incorrect; nested state belongs to the returned transaction connection and Prisma's savepoint calls.
 
-## Error mapping
+
 
 Wrap recognized driver failures in `DriverAdapterError`. Map known conditions to `MappedError` kinds such as constraint violations, authentication/reachability, missing table/column/database, timeouts, closed transactions, invalid input, value range, and write conflicts.
 
@@ -239,7 +234,7 @@ function throwAdapterError(error: unknown): never {
 
 Prisma uses preserved original details when an unmapped driver error becomes `P2039`. Do not replace every unknown exception with a fabricated `GenericJs` id; rethrow genuinely unexpected non-driver errors so programming bugs remain visible.
 
-## Factory, ownership, and shadow database
+
 
 - `connect()` returns a fresh usable adapter connection/pool wrapper.
 - Track whether the factory created the pool. `dispose()` closes owned pools and only detaches listeners from caller-owned pools unless an explicit option transfers ownership.
@@ -247,7 +242,7 @@ Prisma uses preserved original details when an unmapped driver error becomes `P2
 - Never point the shadow adapter at the primary database. Quote generated identifiers and use cryptographically unique names.
 - `getConnectionInfo()` should accurately report `schemaName`, `maxBindValues` when applicable, and `supportsRelationJoins`.
 
-## Verification checklist
+
 
 - [ ] Typecheck against the exact target `@prisma/driver-adapter-utils` version
 - [ ] `queryRaw` preserves column order, types, nulls, and precision
@@ -263,8 +258,8 @@ Prisma uses preserved original details when an unmapped driver error becomes `P2
 - [ ] Shadow database creation, use, failure cleanup, and disposal are isolated
 - [ ] Run Prisma Client integration/E2E tests, not only adapter unit tests
 
-## Source references
 
-- [Driver adapter interfaces](https://github.com/prisma/prisma/blob/v7/packages/driver-adapter-utils/src/types.ts)
-- [PostgreSQL adapter transaction implementation](https://github.com/prisma/prisma/blob/v7/packages/adapter-pg/src/pg.ts)
-- [PostgreSQL adapter error mapping](https://github.com/prisma/prisma/blob/v7/packages/adapter-pg/src/errors.ts)
+
+- [Driver adapter interfaces](https:
+- [PostgreSQL adapter transaction implementation](https:
+- [PostgreSQL adapter error mapping](https:

@@ -1,8 +1,8 @@
-# PrismaClient Constructor
+
 
 Configure Prisma Client when instantiating.
 
-## Basic Instantiation
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -15,9 +15,9 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Constructor Options
 
-### adapter (Required for the SQL provider workflow)
+
+
 
 Driver adapter instance:
 
@@ -31,7 +31,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### accelerateUrl (For Accelerate users)
+
 
 ```typescript
 import { withAccelerate } from '@prisma/extension-accelerate'
@@ -41,7 +41,7 @@ const prisma = new PrismaClient({
 }).$extends(withAccelerate())
 ```
 
-### log
+
 
 Configure logging:
 
@@ -52,7 +52,7 @@ const prisma = new PrismaClient({
 })
 ```
 
-#### Log levels
+
 
 | Level | Description |
 |-------|-------------|
@@ -61,7 +61,7 @@ const prisma = new PrismaClient({
 | `warn` | Warnings |
 | `error` | Errors |
 
-#### Log to events
+
 
 ```typescript
 const prisma = new PrismaClient({
@@ -78,7 +78,7 @@ prisma.$on('query', (e) => {
 })
 ```
 
-### errorFormat
+
 
 Control error formatting:
 
@@ -89,7 +89,7 @@ const prisma = new PrismaClient({
 })
 ```
 
-### comments
+
 
 Attach SQL commenter plugins for observability, tracing, or query insights:
 
@@ -112,7 +112,7 @@ await withQueryTags({ route: '/api/users', requestId: 'req-123' }, () =>
 
 Use `comments` only for SQL providers. This is the clean way to add trace or query-shape metadata without changing your query calls.
 
-### transactionOptions
+
 
 Default transaction settings:
 
@@ -127,7 +127,7 @@ const prisma = new PrismaClient({
 })
 ```
 
-### queryPlanCacheMaxSize
+
 
 Use `queryPlanCacheMaxSize` to limit the in-memory query-plan cache:
 
@@ -138,14 +138,11 @@ const prisma = new PrismaClient({
 })
 ```
 
-The value must be a non-negative integer. Set it to `0` to disable query-plan caching; omit it to use Prisma's default. Treat this as a process-local memory/performance control, not a database prepared-statement setting.
-
-## Singleton Pattern
+The value must be a non-negative integer. Set it to `0` to disable query-plan caching; omit it to use Prisma's default. Treat this as a process-local memory/performance control, not a database prepared-statement setting.
 
 Prevent multiple client instances in development:
 
-```typescript
-// lib/prisma.ts
+```typescript
 import { PrismaClient } from '../generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -165,12 +162,9 @@ export const prisma = globalForPrisma.prisma ?? createPrismaClient()
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
 }
-```
+```
 
-## Next.js Pattern
-
-```typescript
-// lib/prisma.ts
+```typescript
 import { PrismaClient } from '@/generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -193,9 +187,7 @@ export default prisma
 if (process.env.NODE_ENV !== 'production') {
   globalThis.prismaGlobal = prisma
 }
-```
-
-## Query Events
+```
 
 Listen to query events:
 
@@ -210,9 +202,7 @@ prisma.$on('query', (e) => {
   console.log('Params:', e.params)
   console.log('Duration:', e.duration)
 })
-```
-
-## Log Events
+```
 
 ```typescript
 prisma.$on('info', (e) => console.log(e.message))

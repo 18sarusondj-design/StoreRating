@@ -1,14 +1,14 @@
-# prisma migrate diff
+
 
 Compares database schemas and generates diffs (SQL or summary).
 
-## Command
+
 
 ```bash
 prisma migrate diff [options]
 ```
 
-## What It Does
+
 
 - Compares two sources (`--from-...` and `--to-...`)
 - Sources can be:
@@ -20,7 +20,7 @@ prisma migrate diff [options]
     - Human-readable summary (default)
     - SQL script (`--script`)
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -28,7 +28,7 @@ prisma migrate diff [options]
 | `--exit-code` | Exit 2 if changes detected, 0 if empty, 1 if error |
 | `--config` | Custom path to your Prisma config file |
 
-### Sources (Must provide one `from` and one `to`)
+
 
 - `--from-empty`, `--to-empty`
 - `--from-schema <path>`, `--to-schema <path>`
@@ -36,9 +36,9 @@ prisma migrate diff [options]
 - `--from-url <url>`, `--to-url <url>`
 - `--from-config-datasource`, `--to-config-datasource` (uses `prisma.config.ts`)
 
-## Examples
 
-### Generate SQL for a schema change
+
+
 
 Compare current production DB to your local schema:
 
@@ -49,7 +49,7 @@ prisma migrate diff \
   --script
 ```
 
-### Review pending migrations
+
 
 Compare database state to migrations directory:
 
@@ -59,7 +59,7 @@ prisma migrate diff \
   --to-migrations ./prisma/migrations
 ```
 
-### Create baseline migration
+
 
 Compare empty state to current schema:
 
@@ -70,7 +70,7 @@ prisma migrate diff \
   --script > prisma/migrations/0_init/migration.sql
 ```
 
-### Check for drift (CI)
+
 
 Check if database matches schema:
 
@@ -81,7 +81,7 @@ prisma migrate diff \
   --exit-code
 ```
 
-## Use Cases
+
 
 - **Forward-generating migrations**: Creating SQL without `migrate dev`.
 - **Drift detection**: Checking if DB is in sync.

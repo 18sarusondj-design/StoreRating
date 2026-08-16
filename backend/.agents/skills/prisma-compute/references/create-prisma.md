@@ -1,10 +1,10 @@
-# create-prisma Compute Flow
+
 
 Use this reference when creating a new app with Prisma and optionally deploying it to Prisma Compute.
 
 Do not use `create-prisma` as the deploy path for an existing app. For existing projects, use the generated `compute:deploy` script when present, or call `bunx @prisma/cli@latest app deploy` directly.
 
-## Reference
+
 
 Useful scaffold checks:
 
@@ -15,7 +15,7 @@ bunx create-prisma@latest --version
 
 Use `create-prisma@latest` for new-project scaffolding.
 
-## Supported Templates
+
 
 `create-prisma@latest` scaffolds `hono`, `elysia`, `nest`, `next`, `svelte`, `astro`, `nuxt`, `tanstack-start`, and `turborepo`.
 
@@ -25,7 +25,7 @@ The scaffold template name is `nest`, but the Compute deploy framework/config ke
 
 `svelte` is scaffold-only for Compute because `@prisma/cli app deploy --framework` has no `svelte` key.
 
-## Basic Commands
+
 
 Interactive creation:
 
@@ -56,7 +56,7 @@ bunx create-prisma@latest \
   --deploy
 ```
 
-## PostgreSQL and Database Behavior
+
 
 With PostgreSQL, no explicit `--database-url`, and no `--no-prisma-postgres`, the Compute flow can create:
 
@@ -81,7 +81,7 @@ bunx create-prisma@latest \
 
 Do not deploy placeholder database URLs. If `DATABASE_URL` came from a placeholder default, omit it from deploy env and ask the user for a real production database.
 
-## Generated Deploy Script
+
 
 When the deploy flow is selected, `create-prisma` can add:
 
@@ -97,7 +97,7 @@ Use the actual generated script from `package.json`; do not reconstruct it from 
 
 Inspect the generated `package.json`, `prisma.compute.ts`, and README before editing deploy behavior.
 
-## Generated Files to Preserve
+
 
 Preserve generated framework runtime files and `prisma.compute.ts` unless you are intentionally changing the deploy target. For framework-specific deploy/runtime details, read [`frameworks.md`](frameworks.md).
 
@@ -108,10 +108,10 @@ All Prisma 7 scaffolds:
 - generate Prisma Client into a template-local path such as `src/generated/prisma`
 - use `@prisma/adapter-pg` with a `DATABASE_URL` connection string for PostgreSQL
 
-## Addon Notes
+
 
 `create-prisma` supports `--skills`, `--mcp`, and `--extension`. Those are separate from Compute deployment. Do not imply that enabling skills or MCP deploys the app.
 
-## Failure Handling
+
 
 If `--deploy` is explicit and setup cannot authenticate, cannot run the Platform CLI, or cannot complete the integrated deploy, report that deploy failed and keep the scaffolded project. Do not delete the user's files.

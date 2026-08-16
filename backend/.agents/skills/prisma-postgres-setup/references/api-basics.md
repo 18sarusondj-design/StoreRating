@@ -1,18 +1,18 @@
-# api-basics
+
 
 Core conventions for the Prisma Management API. All three `prisma-postgres-*` skills share these patterns.
 
-## Base URL
+
 
 ```
 https://api.prisma.io/v1
 ```
 
-API documentation: https://api.prisma.io/v1/doc
+API documentation: https:
 
-## Response Envelope
 
-### Single resource
+
+
 
 ```json
 {
@@ -25,7 +25,7 @@ API documentation: https://api.prisma.io/v1/doc
 }
 ```
 
-### Collection
+
 
 ```json
 {
@@ -40,7 +40,7 @@ API documentation: https://api.prisma.io/v1/doc
 }
 ```
 
-## Resource ID Prefixes
+
 
 Every resource ID carries a type prefix:
 
@@ -53,7 +53,7 @@ Every resource ID carries a type prefix:
 
 Always include the prefix when sending IDs in API requests.
 
-## Pagination
+
 
 Collection endpoints use cursor-based pagination:
 
@@ -69,7 +69,7 @@ GET /v1/projects?cursor=clx7abc123&limit=10
 
 Continue fetching while `pagination.hasMore` is `true`, using `pagination.nextCursor` as the `cursor` parameter.
 
-## Error Responses
+
 
 All errors follow this shape:
 
@@ -82,7 +82,7 @@ All errors follow this shape:
 }
 ```
 
-### Error codes by HTTP status
+
 
 | HTTP Status | Error Code | Meaning |
 |---|---|---|
@@ -94,7 +94,7 @@ All errors follow this shape:
 | 429 | `rate-limit-exceeded` | Too many requests |
 | 500 | `internal-server-error` | Server error — retry after a delay |
 
-### Self-correction patterns
+
 
 - **401**: Token is invalid or expired. Create a new service token in Console → Workspace Settings → Service Tokens.
 - **404**: Verify the resource ID includes the correct prefix (`proj_`, `db_`, `con_`). Use `GET /v1/projects` or `GET /v1/databases` to list available resources.

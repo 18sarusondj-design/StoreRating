@@ -1,8 +1,8 @@
-# Raw Queries
+
 
 Execute raw SQL when Prisma's query API isn't sufficient.
 
-## $queryRaw
+
 
 Execute SELECT queries and get typed results:
 
@@ -12,7 +12,7 @@ const users = await prisma.$queryRaw`
 `
 ```
 
-### With type
+
 
 ```typescript
 type User = { id: number; email: string; name: string | null }
@@ -22,7 +22,7 @@ const users = await prisma.$queryRaw<User[]>`
 `
 ```
 
-### Dynamic table/column names
+
 
 Use `Prisma.raw()` for identifiers (not safe for user input):
 
@@ -35,7 +35,7 @@ const users = await prisma.$queryRaw`
 `
 ```
 
-### With Prisma.sql
+
 
 Build queries dynamically:
 
@@ -47,7 +47,7 @@ const query = Prisma.sql`SELECT * FROM "User" WHERE email = ${email}`
 const users = await prisma.$queryRaw(query)
 ```
 
-### Join multiple SQL fragments
+
 
 ```typescript
 import { Prisma } from '../generated/client'
@@ -63,7 +63,7 @@ const users = await prisma.$queryRaw`
 `
 ```
 
-## $executeRaw
+
 
 Execute INSERT, UPDATE, DELETE (returns affected count):
 
@@ -74,7 +74,7 @@ const count = await prisma.$executeRaw`
 console.log(`Updated ${count} users`)
 ```
 
-### Delete example
+
 
 ```typescript
 const deleted = await prisma.$executeRaw`
@@ -82,7 +82,7 @@ const deleted = await prisma.$executeRaw`
 `
 ```
 
-### Insert example
+
 
 ```typescript
 const inserted = await prisma.$executeRaw`
@@ -91,12 +91,11 @@ const inserted = await prisma.$executeRaw`
 `
 ```
 
-## $queryRawUnsafe / $executeRawUnsafe
+
 
 For fully dynamic queries (use with caution!):
 
-```typescript
-// ⚠️ SQL injection risk - only use with trusted input
+```typescript
 const table = 'User'
 const users = await prisma.$queryRawUnsafe(
   `SELECT * FROM "${table}" WHERE id = $1`,
@@ -104,7 +103,7 @@ const users = await prisma.$queryRawUnsafe(
 )
 ```
 
-### Parameterized unsafe query
+
 
 ```typescript
 const result = await prisma.$executeRawUnsafe(
@@ -114,54 +113,48 @@ const result = await prisma.$executeRawUnsafe(
 )
 ```
 
-## SQL Injection Prevention
 
-### Safe (parameterized)
 
-```typescript
-// ✅ User input is parameterized
+
+
+```typescript
 const email = userInput
 const users = await prisma.$queryRaw`
   SELECT * FROM "User" WHERE email = ${email}
 `
 ```
 
-### Unsafe (concatenation)
 
-```typescript
-// ❌ SQL injection vulnerability!
+
+```typescript
 const email = userInput
 const users = await prisma.$queryRawUnsafe(
   `SELECT * FROM "User" WHERE email = '${email}'`
 )
 ```
 
-## Database-Specific Features
 
-### PostgreSQL
 
-```typescript
-// Array operations
+
+
+```typescript
 const users = await prisma.$queryRaw`
   SELECT * FROM "User" WHERE 'admin' = ANY(roles)
-`
-
-// JSON operations
+`
 const users = await prisma.$queryRaw`
   SELECT * FROM "User" WHERE metadata->>'theme' = 'dark'
 `
 ```
 
-### MySQL
 
-```typescript
-// Full-text search
+
+```typescript
 const posts = await prisma.$queryRaw`
   SELECT * FROM Post WHERE MATCH(title, content) AGAINST(${searchTerm})
 `
 ```
 
-## Transactions with Raw Queries
+
 
 ```typescript
 await prisma.$transaction(async (tx) => {
@@ -170,9 +163,9 @@ await prisma.$transaction(async (tx) => {
 })
 ```
 
-## Handling Results
 
-### BigInt handling
+
+
 
 PostgreSQL returns BigInt for COUNT:
 
@@ -183,14 +176,13 @@ const result = await prisma.$queryRaw<[{ count: bigint }]>`
 const count = Number(result[0].count)
 ```
 
-### Date handling
+
 
 ```typescript
 type Result = { createdAt: Date }
 const users = await prisma.$queryRaw<Result[]>`
   SELECT "createdAt" FROM "User"
-`
-// createdAt is already a Date object
+`
 ```
 
 Invalid JavaScript `Date` values passed to raw queries fail validation instead of being silently serialized as `null`. Validate date input at the application boundary; do not rely on `new Date(badValue)` reaching the database.

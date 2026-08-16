@@ -1,12 +1,12 @@
-# Prisma Postgres Setup
+
 
 Configure Prisma with Prisma Postgres (Managed).
 
-## Overview
+
 
 Prisma Postgres is a serverless, managed PostgreSQL database optimized for Prisma.
 
-## Setup via CLI
+
 
 You can provision a Prisma Postgres instance directly via the CLI:
 
@@ -19,7 +19,7 @@ This will:
 2. Create a new project and database instance.
 3. Update your `.env` with the connection string.
 
-## Connection String
+
 
 For Prisma CLI flows and Accelerate-style usage, you may see a `prisma+postgres://` URL.
 
@@ -29,7 +29,7 @@ For Prisma Client with a driver adapter in Node.js, prefer the direct TCP connec
 DATABASE_URL="postgres://identifier:key@db.prisma.io:5432/postgres?sslmode=require"
 ```
 
-## 1. Schema Configuration
+
 
 In `prisma/schema.prisma`:
 
@@ -44,7 +44,7 @@ generator client {
 }
 ```
 
-## 2. Config Configuration
+
 
 In `prisma.config.ts`:
 
@@ -59,11 +59,11 @@ export default defineConfig({
 })
 ```
 
-## Driver Adapter
+
 
 Use a driver adapter for Prisma Postgres in the standard SQL workflow.
 
-### Recommended for standard Node.js apps
+
 
 1. Install adapter and driver:
    ```bash
@@ -98,7 +98,7 @@ const adapter = new PrismaPg(process.env.DATABASE_URL!, {
 })
 ```
 
-### Edge/serverless option
+
 
 Use the Prisma Postgres serverless driver only when you need HTTP/WebSocket transport in environments like Workers or Edge Functions:
 
@@ -119,12 +119,12 @@ const prisma = new PrismaClient({
 
 This serverless driver is the specialized path for HTTP/WebSocket-based edge and serverless runtimes, not the default recommendation for standard Node.js apps.
 
-## Features
+
 
 - **Serverless**: Scales to zero.
 - **Caching**: Integrated query caching (Accelerate).
 - **Real-time**: Database events (Pulse).
 
-## Using with Prisma Client
+
 
 Use the Prisma Postgres adapter shown above when instantiating Prisma Client.

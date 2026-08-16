@@ -1,14 +1,14 @@
-# prisma migrate dev
+
 
 Creates and applies migrations during development. Requires a shadow database.
 
-## Command
+
 
 ```bash
 prisma migrate dev [options]
 ```
 
-## What It Does
+
 
 1. Runs existing migrations in shadow database to detect drift
 2. Applies any pending migrations
@@ -16,7 +16,7 @@ prisma migrate dev [options]
 4. Applies new migration to development database
 5. Updates `_prisma_migrations` table
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -26,16 +26,16 @@ prisma migrate dev [options]
 | `--config` | Custom path to your Prisma config file |
 | `--url` | Override the datasource URL from the Prisma config file |
 
-### Follow-up Commands
+
 
 - Run `prisma generate` explicitly when you need refreshed client output
 - Run `prisma db seed` explicitly when you need seed data
 
 Run `prisma generate` as an explicit follow-up when you need refreshed generated artifacts. Do not rely on historical CLI help that described generators as part of `migrate dev`.
 
-## Examples
 
-### Create and apply migration
+
+
 
 ```bash
 prisma migrate dev
@@ -43,13 +43,13 @@ prisma migrate dev
 
 Prompts for migration name if schema changed.
 
-### Named migration
+
 
 ```bash
 prisma migrate dev --name add_users_table
 ```
 
-### Create without applying
+
 
 ```bash
 prisma migrate dev --create-only
@@ -57,7 +57,7 @@ prisma migrate dev --create-only
 
 Useful for reviewing migration SQL before applying.
 
-### Full workflow
+
 
 ```bash
 prisma migrate dev --name my_migration
@@ -65,7 +65,7 @@ prisma generate
 prisma db seed
 ```
 
-## Migration Files
+
 
 Created in `prisma/migrations/`:
 
@@ -78,7 +78,7 @@ prisma/migrations/
 └── migration_lock.toml
 ```
 
-## Schema Drift Detection
+
 
 If `migrate dev` detects drift (manual database changes or edited migrations), it prompts to reset:
 
@@ -88,25 +88,24 @@ Drift detected: Your database schema is not in sync.
 Do you want to reset your database? All data will be lost.
 ```
 
-## When to Use
+
 
 - Local development
 - Adding new models/fields
 - Changing relations
 - Creating indexes
 
-## When NOT to Use
+
 
 - Production deployments (use `migrate deploy`)
 - CI/CD pipelines (use `migrate deploy`)
 - MongoDB (use `db push` instead)
 
-## Common Patterns
 
-### After schema changes
 
-```prisma
-// schema.prisma - Add new field
+
+
+```prisma
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -119,17 +118,15 @@ model User {
 prisma migrate dev --name add_created_at
 ```
 
-### Handling data loss warnings
+
 
 When a migration would cause data loss:
 
 ```bash
-prisma migrate dev --name remove_field
-# Warning: You are about to delete data...
-# Accept with: --accept-data-loss
+prisma migrate dev --name remove_field
 ```
 
-## Shadow Database
+
 
 `migrate dev` requires a shadow database for drift detection. Configure in `prisma.config.ts`:
 

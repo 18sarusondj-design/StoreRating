@@ -1,19 +1,17 @@
-# Client Methods
+
 
 Prisma Client instance methods.
 
-## $connect()
+
 
 Explicitly connect to the database:
 
 ```typescript
-const prisma = new PrismaClient({ adapter })
-
-// Explicit connection
+const prisma = new PrismaClient({ adapter })
 await prisma.$connect()
 ```
 
-### When to use
+
 
 Usually not needed - Prisma connects automatically on first query. Use for:
 - Fail fast on startup
@@ -32,7 +30,7 @@ async function main() {
 }
 ```
 
-## $disconnect()
+
 
 Close database connection:
 
@@ -40,21 +38,19 @@ Close database connection:
 await prisma.$disconnect()
 ```
 
-### Graceful shutdown
+
 
 ```typescript
 process.on('beforeExit', async () => {
   await prisma.$disconnect()
-})
-
-// Or with SIGTERM
+})
 process.on('SIGTERM', async () => {
   await prisma.$disconnect()
   process.exit(0)
 })
 ```
 
-### In tests
+
 
 ```typescript
 afterAll(async () => {
@@ -62,11 +58,11 @@ afterAll(async () => {
 })
 ```
 
-## $on()
+
 
 Subscribe to events:
 
-### Query events
+
 
 ```typescript
 const prisma = new PrismaClient({
@@ -81,7 +77,7 @@ prisma.$on('query', (e) => {
 })
 ```
 
-### Log events
+
 
 ```typescript
 const prisma = new PrismaClient({
@@ -98,11 +94,11 @@ prisma.$on('warn', (e) => console.warn(e.message))
 prisma.$on('error', (e) => console.error(e.message))
 ```
 
-## $extends()
+
 
 Add extensions for custom behavior:
 
-### Add custom methods
+
 
 ```typescript
 const prisma = new PrismaClient({ adapter }).$extends({
@@ -114,7 +110,7 @@ const prisma = new PrismaClient({ adapter }).$extends({
 prisma.$log('Hello!')
 ```
 
-### Add model methods
+
 
 ```typescript
 const prisma = new PrismaClient({ adapter }).$extends({
@@ -130,14 +126,13 @@ const prisma = new PrismaClient({ adapter }).$extends({
 const user = await prisma.user.findByEmail('alice@prisma.io')
 ```
 
-### Query extensions
+
 
 ```typescript
 const prisma = new PrismaClient({ adapter }).$extends({
   query: {
     user: {
-      async findMany({ args, query }) {
-        // Add default filter
+      async findMany({ args, query }) {
         args.where = { ...args.where, deletedAt: null }
         return query(args)
       }
@@ -146,7 +141,7 @@ const prisma = new PrismaClient({ adapter }).$extends({
 })
 ```
 
-### Result extensions
+
 
 ```typescript
 const prisma = new PrismaClient({ adapter }).$extends({
@@ -166,7 +161,7 @@ const user = await prisma.user.findFirst()
 console.log(user.fullName) // Computed field
 ```
 
-### Chain extensions
+
 
 ```typescript
 const prisma = new PrismaClient({ adapter })
@@ -175,33 +170,29 @@ const prisma = new PrismaClient({ adapter })
   .$extends(computedFieldsExtension)
 ```
 
-## $transaction()
+
 
 See `transactions.md` for details.
 
-## $queryRaw() / $executeRaw()
+
 
 See `raw-queries.md` for details.
 
-## Type utilities
 
-### Prisma namespace
+
+
 
 ```typescript
-import { Prisma } from '../generated/client'
-
-// Input types
+import { Prisma } from '../generated/client'
 type UserCreateInput = Prisma.UserCreateInput
-type UserWhereInput = Prisma.UserWhereInput
-
-// Output types
+type UserWhereInput = Prisma.UserWhereInput
 type User = Prisma.UserGetPayload<{}>
 type UserWithPosts = Prisma.UserGetPayload<{
   include: { posts: true }
 }>
 ```
 
-### Type-safe query fragments with satisfies
+
 
 Type-safe query fragments:
 

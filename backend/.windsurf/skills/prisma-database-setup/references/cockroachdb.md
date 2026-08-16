@@ -1,12 +1,12 @@
-# CockroachDB Setup
+
 
 Configure Prisma with CockroachDB.
 
-## Prerequisites
+
 
 - CockroachDB cluster
 
-## 1. Schema Configuration
+
 
 In `prisma/schema.prisma`:
 
@@ -21,7 +21,7 @@ generator client {
 }
 ```
 
-## 2. Config Configuration
+
 
 In `prisma.config.ts`:
 
@@ -36,7 +36,7 @@ export default defineConfig({
 })
 ```
 
-## 3. Environment Variable
+
 
 In `.env`:
 
@@ -46,7 +46,7 @@ DATABASE_URL="postgresql://user:password@host:26257/db?sslmode=verify-full"
 
 Note: CockroachDB uses the PostgreSQL wire protocol, so the URL often looks like postgresql, but the provider **MUST** be `cockroachdb` in the schema to handle specific CRDB features correctly.
 
-## Driver Adapter
+
 
 Use a driver adapter for the standard SQL workflow. CockroachDB is PostgreSQL-compatible, so use the PostgreSQL adapter.
 
@@ -65,7 +65,7 @@ Use a driver adapter for the standard SQL workflow. CockroachDB is PostgreSQL-co
    const prisma = new PrismaClient({ adapter })
    ```
 
-## ID Generation
+
 
 CockroachDB uses `BigInt` or `UUID` for IDs efficiently.
 
@@ -83,7 +83,7 @@ model User {
 }
 ```
 
-## Common Issues
 
-### Schema Introspection
+
+
 Always use `provider = "cockroachdb"` to ensure correct type mapping during `db pull`.

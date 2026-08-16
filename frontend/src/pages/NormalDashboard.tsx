@@ -38,7 +38,7 @@ export const NormalDashboard: React.FC = () => {
     try {
       await api.post(`/stores/${ratingModal.storeId}/rating`, { value: ratingValue });
       setRatingModal({ ...ratingModal, isOpen: false });
-      fetchStores(); // Refresh to get updated ratings
+      fetchStores(); 
     } catch (err) {
       console.error(err);
     }

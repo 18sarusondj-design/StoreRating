@@ -1,13 +1,13 @@
-# MySQL Setup
+
 
 Configure Prisma with MySQL (or MariaDB).
 
-## Prerequisites
+
 
 - MySQL or MariaDB database
 - Connection string
 
-## 1. Schema Configuration
+
 
 In `prisma/schema.prisma`:
 
@@ -22,7 +22,7 @@ generator client {
 }
 ```
 
-## 2. Config Configuration
+
 
 In `prisma.config.ts`:
 
@@ -37,7 +37,7 @@ export default defineConfig({
 })
 ```
 
-## 3. Environment Variable
+
 
 In `.env`:
 
@@ -45,7 +45,7 @@ In `.env`:
 DATABASE_URL="mysql://user:password@localhost:3306/mydb"
 ```
 
-### Connection String Format
+
 
 ```
 mysql://USER:PASSWORD@HOST:PORT/DATABASE
@@ -57,7 +57,7 @@ mysql://USER:PASSWORD@HOST:PORT/DATABASE
 - **PORT**: Port (default 3306)
 - **DATABASE**: Database name
 
-## Driver Adapter
+
 
 Use a driver adapter for the standard SQL workflow.
 
@@ -84,7 +84,7 @@ Use a driver adapter for the standard SQL workflow.
    const prisma = new PrismaClient({ adapter })
    ```
 
-### Text protocol option
+
 
 If you need the MariaDB driver's text protocol instead of the default binary `execute()` path, enable `useTextProtocol` explicitly:
 
@@ -99,9 +99,7 @@ const adapter = new PrismaMariaDb(process.env.DATABASE_URL!, {
 const prisma = new PrismaClient({ adapter })
 ```
 
-Use this only when you specifically need text-protocol compatibility for your MariaDB setup.
-
-## PlanetScale Setup
+Use this only when you specifically need text-protocol compatibility for your MariaDB setup.
 
 PlanetScale uses MySQL but requires specific settings because it doesn't support foreign key constraints.
 
@@ -114,13 +112,13 @@ datasource db {
 }
 ```
 
-## Common Issues
 
-### "Too many connections"
+
+
 MySQL has a connection limit. Adjust connection pool size in URL:
 ```env
 DATABASE_URL="mysql://...?connection_limit=5"
 ```
 
-### JSON Support
+
 MySQL 5.7+ supports JSON. MariaDB 10.2+ supports JSON (as an alias for LONGTEXT with check constraints). Prisma handles this, but verify your version.

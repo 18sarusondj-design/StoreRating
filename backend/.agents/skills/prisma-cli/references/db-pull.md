@@ -1,21 +1,21 @@
-# prisma db pull
+
 
 Introspects an existing database and updates your Prisma schema to reflect its structure.
 
-## Command
+
 
 ```bash
 prisma db pull [options]
 ```
 
-## What It Does
+
 
 - Connects to your database
 - Reads the database schema (tables, columns, relations, indexes)
 - Updates `schema.prisma` with corresponding Prisma models
 - For MongoDB, samples data to infer schema
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -28,15 +28,15 @@ prisma db pull [options]
 | `--schemas` | Specify the database schemas to introspect |
 | `--local-d1` | Generate a Prisma schema from a local Cloudflare D1 database |
 
-## Examples
 
-### Basic introspection
+
+
 
 ```bash
 prisma db pull
 ```
 
-### Preview without writing
+
 
 ```bash
 prisma db pull --print
@@ -44,7 +44,7 @@ prisma db pull --print
 
 Outputs schema to terminal for review.
 
-### Force overwrite
+
 
 ```bash
 prisma db pull --force
@@ -52,7 +52,7 @@ prisma db pull --force
 
 Replaces schema file, losing any manual customizations.
 
-## Prerequisites
+
 
 Configure database connection in `prisma.config.ts`:
 
@@ -68,9 +68,9 @@ export default defineConfig({
 })
 ```
 
-## Workflow
 
-### Starting from existing database
+
+
 
 1. Initialize Prisma:
    ```bash
@@ -91,7 +91,7 @@ export default defineConfig({
    prisma generate
    ```
 
-### Syncing changes from database
+
 
 When database changes are made outside Prisma:
 
@@ -100,7 +100,7 @@ prisma db pull
 prisma generate
 ```
 
-## Generated Schema Example
+
 
 Database tables become Prisma models:
 
@@ -137,7 +137,7 @@ model posts {
 }
 ```
 
-## Post-Introspection Cleanup
+
 
 After `db pull`, consider:
 
@@ -159,15 +159,13 @@ After `db pull`, consider:
    ```
 
 4. **Add documentation**:
-   ```prisma
-   /// User account information
-   model User {
-     /// Primary email for authentication
+   ```prisma
+   model User {
      email String @unique
    }
    ```
 
-## MongoDB Introspection
+
 
 For MongoDB, `db pull` samples documents to infer schema:
 
@@ -177,7 +175,7 @@ prisma db pull
 
 May require manual refinement since MongoDB is schemaless.
 
-## Warning
+
 
 `db pull` overwrites your schema file. Always:
 - Commit current schema before pulling

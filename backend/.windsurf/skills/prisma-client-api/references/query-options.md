@@ -1,8 +1,8 @@
-# Query Options
+
 
 Options for controlling query behavior.
 
-## select
+
 
 Choose specific fields to return:
 
@@ -12,14 +12,12 @@ const user = await prisma.user.findUnique({
   select: {
     id: true,
     name: true,
-    email: true,
-    // password: false (excluded by not including)
+    email: true,
   }
-})
-// Returns: { id: 1, name: 'Alice', email: 'alice@prisma.io' }
+})
 ```
 
-### Select relations
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -36,7 +34,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Select with include inside
+
 
 ```typescript
 const user = await prisma.user.findMany({
@@ -51,7 +49,7 @@ const user = await prisma.user.findMany({
 })
 ```
 
-### Select relation count
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -61,11 +59,10 @@ const users = await prisma.user.findMany({
       select: { posts: true }
     }
   }
-})
-// Returns: { name: 'Alice', _count: { posts: 5 } }
+})
 ```
 
-## include
+
 
 Include related records:
 
@@ -79,7 +76,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Filtered include
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -94,7 +91,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Nested include
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -113,7 +110,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Include relation count
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -125,7 +122,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-## omit
+
 
 Exclude specific fields:
 
@@ -135,11 +132,10 @@ const user = await prisma.user.findUnique({
   omit: {
     password: true
   }
-})
-// Returns all fields except password
+})
 ```
 
-### Omit in relations
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -154,7 +150,7 @@ const users = await prisma.user.findMany({
 
 **Note:** Cannot use `select` and `omit` together.
 
-## where
+
 
 Filter records:
 
@@ -169,17 +165,14 @@ const users = await prisma.user.findMany({
 
 See `filters.md` for detailed filter operators.
 
-## orderBy
+
 
 Sort results:
 
-```typescript
-// Single field
+```typescript
 const users = await prisma.user.findMany({
   orderBy: { name: 'asc' }
-})
-
-// Multiple fields
+})
 const users = await prisma.user.findMany({
   orderBy: [
     { role: 'desc' },
@@ -188,7 +181,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### Order by relation
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -198,7 +191,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### Null handling
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -208,46 +201,39 @@ const users = await prisma.user.findMany({
 })
 ```
 
-## take & skip
+
 
 Pagination:
 
-```typescript
-// First page
+```typescript
 const users = await prisma.user.findMany({
   take: 10,
   skip: 0
-})
-
-// Second page
+})
 const users = await prisma.user.findMany({
   take: 10,
   skip: 10
 })
 ```
 
-### Negative take (reverse)
+
 
 ```typescript
 const lastUsers = await prisma.user.findMany({
   take: -10,
   orderBy: { id: 'asc' }
-})
-// Returns last 10 users
+})
 ```
 
-## cursor
+
 
 Cursor-based pagination:
 
-```typescript
-// First page
+```typescript
 const firstPage = await prisma.user.findMany({
   take: 10,
   orderBy: { id: 'asc' }
-})
-
-// Next page using cursor
+})
 const nextPage = await prisma.user.findMany({
   take: 10,
   skip: 1,  // Skip the cursor record
@@ -256,7 +242,7 @@ const nextPage = await prisma.user.findMany({
 })
 ```
 
-## distinct
+
 
 Return unique values:
 
@@ -267,7 +253,7 @@ const cities = await prisma.user.findMany({
 })
 ```
 
-### Multiple distinct fields
+
 
 ```typescript
 const locations = await prisma.user.findMany({

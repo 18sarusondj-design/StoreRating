@@ -10,7 +10,6 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { NormalDashboard } from './pages/NormalDashboard';
 import { OwnerDashboard } from './pages/OwnerDashboard';
 
-// Placeholder Pages
 const Unauthorized = () => <div className="animate-fade-in" style={{textAlign: 'center', marginTop: '4rem'}}><h2>403 - Unauthorized</h2></div>;
 
 const RootRedirect = () => {

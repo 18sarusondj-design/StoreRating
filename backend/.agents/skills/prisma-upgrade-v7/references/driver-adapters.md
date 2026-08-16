@@ -1,10 +1,10 @@
-# Driver Adapters
+
 
 Prisma v7 requires driver adapters for SQL database connections. This is the standard SQL execution path in current Prisma releases.
 
 MongoDB should not follow this path. There is no published MongoDB `@prisma/adapter-*` package, and MongoDB projects should remain on the latest Prisma 6.x release instead of trying to fit into the Prisma 7 SQL adapter model.
 
-## Why Driver Adapters?
+
 
 - No native engine binary in the Prisma Client SQL path
 - Smaller bundle size
@@ -12,7 +12,7 @@ MongoDB should not follow this path. There is no published MongoDB `@prisma/adap
 - Uses native Node.js database drivers
 - More control over connection pooling
 
-## Available Adapters
+
 
 | Database | Adapter Package | Underlying Driver |
 |----------|-----------------|-------------------|
@@ -27,41 +27,41 @@ MongoDB should not follow this path. There is no published MongoDB `@prisma/adap
 | Turso/libSQL | `@prisma/adapter-libsql` | `@libsql/client` |
 | D1 (Cloudflare) | `@prisma/adapter-d1` | Cloudflare D1 |
 
-## Installation
 
-### PostgreSQL
+
+
 
 ```bash
 npm install @prisma/adapter-pg
 ```
 
-### MySQL
+
 
 ```bash
 npm install @prisma/adapter-mariadb mariadb
 ```
 
-### SQLite
+
 
 ```bash
 npm install @prisma/adapter-better-sqlite3
 ```
 
-### Prisma Postgres
+
 
 ```bash
 npm install @prisma/adapter-pg pg
 ```
 
-### SQL Server
+
 
 ```bash
 npm install @prisma/adapter-mssql mssql
 ```
 
-## Configuration
 
-### PostgreSQL
+
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -74,7 +74,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### MySQL
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -92,7 +92,7 @@ const adapter = new PrismaMariaDb({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### SQLite
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -105,7 +105,7 @@ const adapter = new PrismaBetterSqlite3({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### Neon (Serverless PostgreSQL)
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -118,7 +118,7 @@ const adapter = new PrismaNeon({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### Prisma Postgres
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -131,7 +131,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### Prisma Postgres serverless driver
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -144,7 +144,7 @@ const prisma = new PrismaClient({
 })
 ```
 
-### SQL Server
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -165,36 +165,27 @@ const adapter = new PrismaMssql({
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Connection Pool Configuration
 
-Driver adapters use the underlying driver's pool settings, which differ from v6 defaults.
 
-### PostgreSQL with custom pool
+Driver adapters use the underlying driver's pool settings, which differ from v6 defaults.
 
 ```typescript
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-  // Pool configuration
+  connectionString: process.env.DATABASE_URL,
   max: 10,                    // Maximum connections
   idleTimeoutMillis: 30000,   // Close idle connections after 30s
   connectionTimeoutMillis: 5000, // Connection timeout (v6 default was 5s)
 })
-```
-
-### Matching v6 behavior
+```
 
 ```typescript
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
   connectionTimeoutMillis: 5000,  // v6 used 5 second timeout
 })
-```
-
-## SSL Configuration
-
-### Accept self-signed certificates
+```
 
 ```typescript
 const adapter = new PrismaPg({
@@ -203,9 +194,7 @@ const adapter = new PrismaPg({
     rejectUnauthorized: false  // Accept self-signed certs
   }
 })
-```
-
-### Proper SSL configuration
+```
 
 ```typescript
 const adapter = new PrismaPg({
@@ -215,11 +204,7 @@ const adapter = new PrismaPg({
     rejectUnauthorized: true
   }
 })
-```
-
-## Migration from v6
-
-### Before (v6)
+```
 
 ```typescript
 import { PrismaClient } from '@prisma/client'
@@ -229,9 +214,7 @@ const prisma = new PrismaClient({
     db: { url: process.env.DATABASE_URL }
   }
 })
-```
-
-### After (v7)
+```
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -242,12 +225,9 @@ const adapter = new PrismaPg({
 })
 
 const prisma = new PrismaClient({ adapter })
-```
+```
 
-## Singleton Pattern
-
-```typescript
-// lib/prisma.ts
+```typescript
 import { PrismaClient } from '../generated/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 

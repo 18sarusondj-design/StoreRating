@@ -1,24 +1,16 @@
-# management-api-sdk
+
 
 Use `@prisma/management-api-sdk` for typed API integration with optional OAuth and token refresh.
 
-The Platform API evolves independently from Prisma ORM. Inspect the installed package's generated `api.d.ts` for exact paths and request/response shapes.
+The Platform API evolves independently from Prisma ORM. Inspect the installed package's generated `api.d.ts` for exact paths and request/response shapes.
 
-## Priority
+HIGH
 
-HIGH
-
-## Why It Matters
-
-The SDK provides typed endpoint methods and removes boilerplate around auth and refresh handling, which reduces errors in production provisioning flows.
-
-## Install
+The SDK provides typed endpoint methods and removes boilerplate around auth and refresh handling, which reduces errors in production provisioning flows.
 
 ```bash
 npm install @prisma/management-api-sdk
-```
-
-## Simple client (existing token)
+```
 
 ```typescript
 import { createManagementApiClient } from '@prisma/management-api-sdk'
@@ -27,9 +19,7 @@ const client = createManagementApiClient({ token: process.env.PRISMA_SERVICE_TOK
 const { data: workspaces } = await client.GET('/v1/workspaces')
 ```
 
-Check the generated client result before using `data`; typed clients surface HTTP failures separately. Never log a full response from connection/key creation because it may contain one-time credentials.
-
-## Workspace service tokens
+Check the generated client result before using `data`; typed clients surface HTTP failures separately. Never log a full response from connection/key creation because it may contain one-time credentials.
 
 The typed client exposes routes to list, create, and revoke workspace service tokens:
 
@@ -39,7 +29,7 @@ The typed client exposes routes to list, create, and revoke workspace service to
 
 Creation accepts a display `name`. The response's `data.value` is the complete token and is returned exactly once; transfer it directly to the intended secret store without logging the response. Later list calls return metadata and `valueHint`, not the token value. Treat revocation as destructive and resolve both ids explicitly.
 
-## Full SDK (OAuth + refresh)
+
 
 ```typescript
 import { createManagementApiSdk, type TokenStorage } from '@prisma/management-api-sdk'
@@ -57,7 +47,7 @@ const api = createManagementApiSdk({
 })
 ```
 
-## OAuth SDK flow
+
 
 1. Call `getLoginUrl()` and persist `state` + `verifier`.
 2. Redirect user to login URL.
@@ -65,6 +55,6 @@ const api = createManagementApiSdk({
 4. Use `api.client` for typed endpoint calls.
 5. Call `logout()` when needed.
 
-## References
 
-- [Management API SDK docs](https://www.prisma.io/docs/postgres/introduction/management-api-sdk)
+
+- [Management API SDK docs](https:

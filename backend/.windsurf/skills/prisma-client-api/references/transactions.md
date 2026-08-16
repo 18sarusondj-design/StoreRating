@@ -1,8 +1,8 @@
-# Transactions
+
 
 Execute multiple operations atomically.
 
-## Sequential Transactions
+
 
 Array of operations executed in order:
 
@@ -13,7 +13,7 @@ const [user, post] = await prisma.$transaction([
 ])
 ```
 
-### All or nothing
+
 
 If any operation fails, all are rolled back:
 
@@ -23,29 +23,23 @@ try {
     prisma.user.create({ data: { email: 'alice@prisma.io' } }),
     prisma.user.create({ data: { email: 'alice@prisma.io' } }) // Duplicate!
   ])
-} catch (e) {
-  // Both operations rolled back
+} catch (e) {
 }
 ```
 
-## Interactive Transactions
+
 
 For complex logic and dependent operations:
 
 ```typescript
-await prisma.$transaction(async (tx) => {
-  // Decrement sender balance
+await prisma.$transaction(async (tx) => {
   const sender = await tx.account.update({
     where: { id: senderId },
     data: { balance: { decrement: amount } }
-  })
-  
-  // Check balance
+  })
   if (sender.balance < 0) {
     throw new Error('Insufficient funds')
-  }
-  
-  // Increment recipient balance
+  }
   await tx.account.update({
     where: { id: recipientId },
     data: { balance: { increment: amount } }
@@ -53,12 +47,11 @@ await prisma.$transaction(async (tx) => {
 })
 ```
 
-### Transaction options
+
 
 ```typescript
 await prisma.$transaction(
-  async (tx) => {
-    // operations
+  async (tx) => {
   },
   {
     maxWait: 5000,    // Max wait to acquire lock (ms)
@@ -68,7 +61,7 @@ await prisma.$transaction(
 )
 ```
 
-### Isolation levels
+
 
 | Level | Description |
 |-------|-------------|
@@ -77,12 +70,11 @@ await prisma.$transaction(
 | `RepeatableRead` | Consistent reads within transaction |
 | `Serializable` | Highest isolation, serialized execution |
 
-## Nested Writes
+
 
 Automatic transactions for nested operations:
 
-```typescript
-// This is automatically a transaction
+```typescript
 const user = await prisma.user.create({
   data: {
     email: 'alice@prisma.io',
@@ -99,28 +91,24 @@ const user = await prisma.user.create({
 })
 ```
 
-## Transaction Client
+
 
 The `tx` parameter is a Prisma Client scoped to the transaction:
 
 ```typescript
-await prisma.$transaction(async (tx) => {
-  // Use tx instead of prisma
+await prisma.$transaction(async (tx) => {
   await tx.user.create({ ... })
-  await tx.post.create({ ... })
-  
-  // Can call methods
+  await tx.post.create({ ... })
   const count = await tx.user.count()
 })
 ```
 
-## OrThrow in Transactions
+
 
 Use with interactive transactions:
 
 ```typescript
-await prisma.$transaction(async (tx) => {
-  // If not found, throws and rolls back entire transaction
+await prisma.$transaction(async (tx) => {
   const user = await tx.user.findUniqueOrThrow({
     where: { id: 1 }
   })
@@ -131,49 +119,42 @@ await prisma.$transaction(async (tx) => {
 })
 ```
 
-## Best Practices
 
-### Keep transactions short
 
-```typescript
-// Good - only DB operations in transaction
+
+
+```typescript
 const data = prepareData() // Outside transaction
 await prisma.$transaction(async (tx) => {
   await tx.user.create({ data })
 })
 ```
 
-### Handle errors
+
 
 ```typescript
 try {
-  await prisma.$transaction(async (tx) => {
-    // operations
+  await prisma.$transaction(async (tx) => {
   })
 } catch (e) {
-  if (e.code === 'P2002') {
-    // Handle unique constraint violation
+  if (e.code === 'P2002') {
   }
   throw e
 }
 ```
 
-### Use appropriate isolation
 
-```typescript
-// Default is fine for most cases
-await prisma.$transaction(async (tx) => {
-  // operations
-})
 
-// Use Serializable for strict consistency
+```typescript
+await prisma.$transaction(async (tx) => {
+})
 await prisma.$transaction(
-  async (tx) => { /* operations */ },
+  async (tx) => {  },
   { isolationLevel: 'Serializable' }
 )
 ```
 
-## Sequential vs Interactive
+
 
 | Feature | Sequential | Interactive |
 |---------|------------|-------------|

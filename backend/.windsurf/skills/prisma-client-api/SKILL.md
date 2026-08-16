@@ -7,11 +7,11 @@ metadata:
   version: "7.9.1"
 ---
 
-# Prisma Client API Reference
+
 
 Complete API reference for Prisma Client. This skill provides guidance on model queries, filtering, relations, and client methods for current Prisma projects.
 
-## When to Apply
+
 
 Reference this skill when:
 - Writing database queries with Prisma Client
@@ -21,7 +21,7 @@ Reference this skill when:
 - Using transactions
 - Configuring client options
 
-## Rule Categories by Priority
+
 
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
@@ -34,7 +34,7 @@ Reference this skill when:
 | 7 | Raw SQL | CRITICAL | `raw-queries` |
 | 8 | Client Methods | MEDIUM | `client-methods` |
 
-## Quick Reference
+
 
 - `constructor` - `PrismaClient` setup, adapter wiring, logging, and SQL commenter plugins
 - `model-queries` - CRUD operations and bulk operations
@@ -45,7 +45,7 @@ Reference this skill when:
 - `raw-queries` - `$queryRaw` and `$executeRaw` safety
 - `client-methods` - lifecycle methods, extensions, and `satisfies` patterns for `prisma-client`
 
-## Client Instantiation
+
 
 ```typescript
 import { PrismaClient } from '../generated/client'
@@ -58,7 +58,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Model Query Methods
+
 
 | Method | Description |
 |--------|-------------|
@@ -80,7 +80,7 @@ const prisma = new PrismaClient({ adapter })
 | `aggregate()` | Aggregate values (sum, avg, etc.) |
 | `groupBy()` | Group and aggregate |
 
-## Query Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -94,7 +94,7 @@ const prisma = new PrismaClient({ adapter })
 | `cursor` | Cursor-based pagination |
 | `distinct` | Unique values only |
 
-## Client Methods
+
 
 | Method | Description |
 |--------|-------------|
@@ -106,17 +106,14 @@ const prisma = new PrismaClient({ adapter })
 | `$on()` | Subscribe to events |
 | `$extends()` | Add extensions |
 
-## Quick Examples
 
-### Find records
 
-```typescript
-// Find by unique field
+
+
+```typescript
 const user = await prisma.user.findUnique({
   where: { email: 'alice@prisma.io' }
-})
-
-// Find with filter
+})
 const users = await prisma.user.findMany({
   where: { role: 'ADMIN' },
   orderBy: { createdAt: 'desc' },
@@ -124,7 +121,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### Create records
+
 
 ```typescript
 const user = await prisma.user.create({
@@ -139,7 +136,7 @@ const user = await prisma.user.create({
 })
 ```
 
-### Update records
+
 
 ```typescript
 const user = await prisma.user.update({
@@ -148,7 +145,7 @@ const user = await prisma.user.update({
 })
 ```
 
-### Delete records
+
 
 ```typescript
 await prisma.user.delete({
@@ -156,7 +153,7 @@ await prisma.user.delete({
 })
 ```
 
-### Transactions
+
 
 ```typescript
 const [user, post] = await prisma.$transaction([
@@ -165,7 +162,7 @@ const [user, post] = await prisma.$transaction([
 ])
 ```
 
-## Rule Files
+
 
 Detailed API documentation:
 
@@ -180,7 +177,7 @@ references/raw-queries.md        - $queryRaw, $executeRaw
 references/client-methods.md     - $connect, $disconnect, $on, $extends
 ```
 
-## Filter Operators
+
 
 | Operator | Description |
 |----------|-------------|
@@ -195,7 +192,7 @@ references/client-methods.md     - $connect, $disconnect, $on, $extends
 | `endsWith` | String ends with |
 | `mode` | Case sensitivity |
 
-## Relation Filters
+
 
 | Operator | Description |
 |----------|-------------|
@@ -203,14 +200,10 @@ references/client-methods.md     - $connect, $disconnect, $on, $extends
 | `every` | All related records match |
 | `none` | No related records match |
 | `is` | Related record matches (1-to-1) |
-| `isNot` | Related record doesn't match |
-
-## Resources
+| `isNot` | Related record doesn't match |
 
 - [Prisma Client API Reference](https://www.prisma.io/docs/orm/reference/prisma-client-reference)
 - [CRUD Operations](https://www.prisma.io/docs/orm/prisma-client/queries/crud)
-- [Filtering and Sorting](https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting)
-
-## How to Use
+- [Filtering and Sorting](https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting)
 
 Pick the category from the table above, then open the matching reference file for implementation details and examples.

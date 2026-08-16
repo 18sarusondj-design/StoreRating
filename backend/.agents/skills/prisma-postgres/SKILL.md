@@ -7,11 +7,11 @@ metadata:
   version: "7.9.1"
 ---
 
-# Prisma Postgres
+
 
 Guidance for creating, managing, and integrating Prisma Postgres across interactive and programmatic workflows.
 
-## When to Apply
+
 
 Reference this skill when:
 - Setting up Prisma Postgres from Prisma Console
@@ -21,7 +21,7 @@ Reference this skill when:
 - Using `@prisma/management-api-sdk` in TypeScript/JavaScript
 - Handling claim URLs, connection strings, regions, and auth flows
 
-## Rule Categories by Priority
+
 
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
@@ -30,16 +30,16 @@ Reference this skill when:
 | 3 | Management API SDK | HIGH | `management-api-sdk` |
 | 4 | Console and Connections | HIGH | `console-and-connections` |
 
-## Quick Reference
+
 
 - `create-db-cli` - instant databases and current CLI flags (`--ttl`, `--copy`, `--quiet`, `--open`)
 - `management-api` - service token and OAuth API workflows
 - `management-api-sdk` - typed SDK usage with token storage
 - `console-and-connections` - Console operations, `prisma postgres link`, direct TCP connections, and serverless-driver choices
 
-## Core Workflows
 
-### 1. Console-first workflow
+
+
 
 Use Prisma Console for manual setup and operations:
 
@@ -48,7 +48,7 @@ Use Prisma Console for manual setup and operations:
 - Use Studio in the project sidebar to view/edit data
 - Retrieve direct connection details from the project UI
 
-### 2. Quick provisioning with create-db
+
 
 Use `create-db` when you need a database immediately:
 
@@ -67,7 +67,7 @@ For app integrations, you can also use the programmatic API (`create()` / `regio
 
 Temporary databases auto-delete after ~24 hours unless claimed.
 
-### 2b. Persistent databases with the Platform CLI
+
 
 For databases that belong to a Project (not throwaway `create-db` databases), use `@prisma/cli`:
 
@@ -81,9 +81,7 @@ npx -y @prisma/cli@latest database backup list db_123
 
 `database create` and `database connection create` print a one-time connection URL; store it immediately. Destructive commands (`remove`, `restore`) require exact `--confirm <id>`.
 
-For automation, prefer `--json --no-interactive`, resolve ids before mutations, and verify the installed command's help because this CLI is beta.
-
-### 3. Link an existing local project
+For automation, prefer `--json --no-interactive`, resolve ids before mutations, and verify the installed command's help because this CLI is beta.
 
 Use `prisma postgres link` when the database already exists and you want to wire a local project to it:
 
@@ -97,9 +95,7 @@ For CI or other non-interactive environments:
 prisma postgres link --api-key "<your-api-key>" --database "db_..."
 ```
 
-This flow updates your local `.env` with `DATABASE_URL`, then you can run `prisma generate` and `prisma migrate dev`.
-
-### 4. Programmatic provisioning with Management API
+This flow updates your local `.env` with `DATABASE_URL`, then you can run `prisma generate` and `prisma migrate dev`.
 
 Use API endpoints on:
 
@@ -115,9 +111,7 @@ Explore the schema and endpoints using:
 Auth options:
 
 - Service token (workspace server-to-server)
-- OAuth 2.0 (act on behalf of users)
-
-### 5. Type-safe integration with Management API SDK
+- OAuth 2.0 (act on behalf of users)
 
 Install and use:
 
@@ -127,9 +121,7 @@ npm install @prisma/management-api-sdk
 
 Use `createManagementApiClient` for existing tokens, or `createManagementApiSdk` for OAuth + token refresh.
 
-The SDK exposes typed workspace service-token list, create, and revoke routes. A newly created token value is returned exactly once. Let the installed SDK types or OpenAPI document settle exact beta endpoint shapes.
-
-## Rule Files
+The SDK exposes typed workspace service-token list, create, and revoke routes. A newly created token value is returned exactly once. Let the installed SDK types or OpenAPI document settle exact beta endpoint shapes.
 
 Detailed guidance lives in:
 
@@ -138,8 +130,6 @@ references/console-and-connections.md
 references/create-db-cli.md
 references/management-api.md
 references/management-api-sdk.md
-```
-
-## How to Use
+```
 
 Start with `references/create-db-cli.md` for fast setup, then switch to `references/management-api.md` or `references/management-api-sdk.md` when you need programmatic provisioning.

@@ -1,14 +1,14 @@
-# prisma migrate reset
+
 
 Resets your database and re-applies all migrations.
 
-## Command
+
 
 ```bash
 prisma migrate reset [options]
 ```
 
-## What It Does
+
 
 1. **Drops** the database (if possible) or deletes all data/tables
 2. **Re-creates** the database
@@ -19,7 +19,7 @@ prisma migrate reset [options]
 
 When Prisma detects an AI agent, this command is blocked until the user gives explicit consent. Follow `agent-safety.md`; `--force` skips the ordinary prompt but does not constitute user consent for an agent.
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
@@ -27,9 +27,9 @@ When Prisma detects an AI agent, this command is blocked until the user gives ex
 | `--schema` | Path to schema file |
 | `--config` | Custom path to your Prisma config file |
 
-## Examples
 
-### Basic reset
+
+
 
 ```bash
 prisma migrate reset
@@ -37,29 +37,25 @@ prisma migrate reset
 
 Prompts for confirmation in interactive terminals.
 
-### Force reset (CI/Automation)
+
 
 ```bash
 prisma migrate reset --force
 ```
 
-### With custom schema
+
 
 ```bash
 prisma migrate reset --schema=./custom/schema.prisma
 ```
 
-## When to Use
+
 
 - **Development**: When you want a fresh start
 - **Testing**: Resetting test database before suites
-- **Drift Recovery**: When the database is out of sync and you can't migrate
+- **Drift Recovery**: When the database is out of sync and you can't migrate
 
-## Follow-up Steps
-
-Run `prisma generate` and `prisma db seed` explicitly when you need refreshed client output or seed data after a reset.
-
-## Configuration
+Run `prisma generate` and `prisma db seed` explicitly when you need refreshed client output or seed data after a reset.
 
 Configure the seed script in `prisma.config.ts`, then run it explicitly after reset:
 

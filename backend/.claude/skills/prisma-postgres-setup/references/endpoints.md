@@ -1,8 +1,8 @@
-# endpoints
+
 
 Management API endpoint details for database setup workflows.
 
-## List regions
+
 
 ```
 GET /v1/regions/postgres
@@ -33,7 +33,7 @@ No request body. Returns available Prisma Postgres regions.
 
 Only use regions where `status` is `available`.
 
-## Create project (with database)
+
 
 ```
 POST /v1/projects
@@ -114,7 +114,7 @@ The response also includes `pooled` and `accelerate` endpoints — ignore these 
 
 If `data.database.status` is `provisioning`, poll `GET /v1/databases/{id}` until `status` is `ready`.
 
-## Get database
+
 
 ```
 GET /v1/databases/{databaseId}
@@ -149,7 +149,7 @@ Use to check database status after creation or to retrieve database details.
 }
 ```
 
-## Create connection
+
 
 ```
 POST /v1/databases/{databaseId}/connections
@@ -198,7 +198,7 @@ Creates a new named connection string for a database. Use for per-developer or p
 
 Extract: `data.endpoints.direct.connectionString` → use as `DATABASE_URL`.
 
-## Delete database
+
 
 ```
 DELETE /v1/databases/{databaseId}
@@ -206,7 +206,7 @@ DELETE /v1/databases/{databaseId}
 
 Permanently deletes a database and all its connections. Returns `204 No Content` on success.
 
-## List projects
+
 
 ```
 GET /v1/projects
@@ -214,7 +214,7 @@ GET /v1/projects
 
 Returns all projects in the workspace. Supports cursor-based pagination (`?cursor=...&limit=...`).
 
-## Delete project
+
 
 ```
 DELETE /v1/projects/{projectId}

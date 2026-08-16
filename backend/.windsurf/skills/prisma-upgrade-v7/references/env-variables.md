@@ -1,26 +1,26 @@
-# Environment Variables
+
 
 Prisma v7 no longer automatically loads environment variables. You must load them explicitly.
 
-## The Change
 
-### v6 Behavior
+
+
 
 Prisma CLI automatically loaded `.env` files.
 
-### v7 Behavior
+
 
 You must manually load environment variables using `dotenv` or similar.
 
-## Setup
 
-### 1. Install dotenv
+
+
 
 ```bash
 npm install dotenv
 ```
 
-### 2. Import in prisma.config.ts
+
 
 ```typescript
 import 'dotenv/config'  // Must be first import
@@ -33,12 +33,11 @@ export default defineConfig({
 })
 ```
 
-## Bun Users
+
 
 Bun automatically loads `.env` files. No additional setup needed:
 
-```typescript
-// prisma.config.ts (Bun)
+```typescript
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
@@ -48,9 +47,9 @@ export default defineConfig({
 })
 ```
 
-## Multiple .env Files
 
-### Using dotenv-cli
+
+
 
 ```bash
 npm install -D dotenv-cli
@@ -65,14 +64,11 @@ npm install -D dotenv-cli
 }
 ```
 
-### Using dotenv with path
 
-```typescript
-// prisma.config.ts
+
+```typescript
 import { config } from 'dotenv'
-import path from 'path'
-
-// Load specific .env file
+import path from 'path'
 config({ path: path.join(__dirname, '.env.local') })
 
 import { defineConfig, env } from 'prisma/config'
@@ -84,14 +80,13 @@ export default defineConfig({
 })
 ```
 
-## Application Code
+
 
 For your application, load env vars at startup:
 
-### Entry point
 
-```typescript
-// index.ts
+
+```typescript
 import 'dotenv/config'
 
 import { PrismaClient } from '../generated/client'
@@ -104,16 +99,14 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### Or use dotenv explicitly
+
 
 ```typescript
 import { config } from 'dotenv'
-config()
-
-// Now process.env.DATABASE_URL is available
+config()
 ```
 
-## Removed Environment Variables
+
 
 These Prisma-specific env vars are removed in v7:
 
@@ -132,25 +125,22 @@ These Prisma-specific env vars are removed in v7:
 | `PRISMA_MIGRATE_SKIP_GENERATE` | Not needed (auto-generate removed) |
 | `PRISMA_MIGRATE_SKIP_SEED` | Not needed (auto-seed removed) |
 
-## TypeScript env() Helper
+
 
 The `env()` function from `prisma/config` provides type safety:
 
 ```typescript
-import { env } from 'prisma/config'
-
-// Type-safe environment variable access
+import { env } from 'prisma/config'
 const url = env('DATABASE_URL')  // string
 ```
 
 Note: This only works within `prisma.config.ts`, not in your application code.
 
-## CI/CD Considerations
+
 
 Ensure environment variables are set in your CI environment:
 
-```yaml
-# GitHub Actions
+```yaml
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 

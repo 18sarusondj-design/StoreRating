@@ -7,11 +7,11 @@ metadata:
   version: "1.5.1"
 ---
 
-# Prisma Compute
+
 
 Guide agents through Prisma Compute app creation, deployment, operations, and framework-specific deploy readiness.
 
-## Prisma Compute CLI Surface
+
 
 Use the Prisma Platform CLI for Compute app workflows:
 
@@ -24,7 +24,7 @@ bunx create-prisma@latest --help
 
 Use `@prisma/cli@latest` for Compute app deployment. Use `create-prisma@latest` for new-project scaffolding.
 
-## Send Feedback and Report CLI Issues
+
 
 The CLI has a built-in feedback channel. Use it whenever a command crashes (`UNEXPECTED_ERROR`), a failure survives troubleshooting, or the user asks to send feedback to the Prisma team:
 
@@ -35,16 +35,14 @@ bunx @prisma/cli@latest feedback "love the deploy flow" --email you@example.com
 
 Crash output points here on its own: `--json` crash envelopes carry the exact pre-filled command as a `recover` entry in `nextActions` (run it verbatim), and human crash output ends with a `Tell us what happened:` hint. Feedback is anonymous unless `--email` is passed and attaches only the CLI version, node version, and OS platform/arch. Never include secrets, connection URLs, or user data in the message.
 
-## Source-of-Truth Order
+
 
 Use evidence in this order when deciding what to edit or run:
 
 1. The project's generated scripts and config, especially `prisma.compute.ts`, `compute:deploy`, framework config, and `package.json`.
 2. CLI help output from `create-prisma` and `@prisma/cli`.
 3. Local installed package code, generated artifacts, and type definitions.
-4. Official docs.
-
-## When to Apply
+4. Official docs.
 
 Use this skill for:
 
@@ -58,9 +56,7 @@ Use this skill for:
 - Running non-interactive deploys with browser auth, multiple stored workspaces, or Prisma service tokens
 - Switching, selecting, listing, or logging out local Prisma Platform workspaces for `@prisma/cli`
 - Sending feedback about an unresolvable Compute CLI failure with `@prisma/cli feedback`
-- Programmatic deployments with `@prisma/compute-sdk` or Management API integrations
-
-## Decision Tree
+- Programmatic deployments with `@prisma/compute-sdk` or Management API integrations
 
 1. Existing project deployment or redeploy:
    Read [`references/app-deploy-cli.md`](references/app-deploy-cli.md).
@@ -78,9 +74,7 @@ Use this skill for:
    Read [`references/sdk-api.md`](references/sdk-api.md).
 
 6. Build, auth, env, deploy, or runtime failures:
-   Read [`references/troubleshooting.md`](references/troubleshooting.md).
-
-## Rules by Priority
+   Read [`references/troubleshooting.md`](references/troubleshooting.md).
 
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
@@ -91,11 +85,7 @@ Use this skill for:
 | 5 | Typed Compute config | HIGH | `config-` |
 | 6 | Branch, environment, and database wiring | HIGH | `env-` |
 | 7 | Deploy operations | HIGH | `deploy-` |
-| 8 | SDK and API automation | MEDIUM | `sdk-` |
-
-## Quick Rules
-
-### 1. Command Verification
+| 8 | SDK and API automation | MEDIUM | `sdk-` |
 
 - `verify-help-first` - Use CLI help output to confirm command syntax while working.
 - `verify-prisma-vs-platform-cli` - Do not assume `prisma app deploy` exists in the ORM CLI; check whether the task should use `@prisma/cli`.
@@ -104,7 +94,7 @@ Use this skill for:
 - `verify-config-support` - Treat `prisma.compute.ts` as the typed Compute config; inspect the project's config and generated scripts before editing or deploying.
 - `verify-auth-workspace-support` - Use `@prisma/cli auth workspace` commands for local workspace list/use/logout flows.
 
-### 2. Auth and Workspace Selection
+
 
 - `auth-source-precedence` - A non-empty `PRISMA_SERVICE_TOKEN` is the active auth source for commands and local OAuth workspaces are ignored for execution. If it is set but empty, the CLI should fail instead of falling back to stored OAuth.
 - `auth-multi-workspace` - `auth login` can store OAuth sessions for multiple workspaces on the same machine. The active workspace pointer selects which stored OAuth grant normal commands use.
@@ -115,20 +105,20 @@ Use this skill for:
 - `auth-service-token-switching` - While `PRISMA_SERVICE_TOKEN` is set, `auth workspace use` is unavailable because the service token is the active auth source; unset the env var to switch local OAuth workspaces. Workspace logout still only cleans local OAuth state.
 - `auth-storage-awareness` - Local OAuth credentials live in the platform auth file, with workspace metadata in a sidecar context file. Project pins live in `.prisma/local.json`, and CLI app/project state lives in `.prisma/cli/state.json` near `prisma.compute.ts` when present.
 
-### 3. Framework Readiness
+
 
 - `framework-cli-first` - Evaluate deploy readiness against `@prisma/cli app deploy`, not against what `create-prisma` can scaffold.
 - `framework-supported-cli-deploy` - Compute deploy supports `nextjs`, `nuxt`, `astro`, `hono`, `nestjs`, `tanstack-start`, `custom`, and `bun`.
 - `framework-create-prisma-defaults-only` - `create-prisma` can provide generated defaults and `compute:deploy`, but it is not the general deploy surface for existing apps.
 - `framework-build-output` - Compute needs a server entrypoint or framework artifact, not only static output.
 
-### 4. Runtime Host and Port Binding
+
 
 - `runtime-bind-all-interfaces` - Deployed servers must bind on all interfaces (`0.0.0.0` or the framework equivalent), not hard-coded `localhost` or `127.0.0.1`.
 - `runtime-match-http-port` - The app must listen on the deployed HTTP port: read `process.env.PORT` when possible, or pass the matching `--http-port`.
 - `runtime-readiness-port-only` - Compute readiness watches listening ports; a loopback-only listener can look ready while public ingress cannot reach it.
 
-### 5. Typed Compute Config
+
 
 - `config-optional-simple-app` - `prisma.compute.ts` is not required to deploy a normal single app; use flags when there is no durable config.
 - `config-init-formalizer` - Generate a fresh config with `bunx @prisma/cli@latest init`: it detects the framework, pins name/framework/httpPort (plus entry for Bun/Hono), and offers the Project link. `--format json` writes a dependency-free `prisma.compute.json` instead. `init` refuses when any config already exists, never scaffolds code, and never deploys.
@@ -139,9 +129,7 @@ Use this skill for:
 - `config-region-new-app-only` - A config `region` is only a default for newly created apps; deploys to existing apps keep the app's current region.
 - `config-custom-artifact` - Use `framework: "custom"` with `build.outputDirectory` and `build.entrypoint` for prebuilt or custom-built artifacts.
 - `config-no-project-branch-secrets` - Do not commit Workspace, Project, Branch, production intent, service tokens, or secret values in `prisma.compute.ts`; keep those in flags, `.prisma/local.json`, env storage, or CI secrets. App-level defaults such as `region`, `root`, `framework`, `entry`, `httpPort`, and non-secret env file paths belong in config.
-- `config-flags-win` - Explicit deploy flags such as `--framework`, `--entry`, `--http-port`, `--region`, and `--env` override matching config values.
-
-### 6. Branch, Environment, and Database
+- `config-flags-win` - Explicit deploy flags such as `--framework`, `--entry`, `--http-port`, `--region`, and `--env` override matching config values.
 
 - `env-do-not-leak-secrets` - Never print full `DATABASE_URL`, service tokens, or secret values.
 - `env-deploy-loads-dotenv` - Generated deploy scripts may load env via `prisma.compute.ts` or `--env .env`; inspect the actual script/config before redeploy.
@@ -149,9 +137,7 @@ Use this skill for:
 - `env-cli-token-name` - `@prisma/cli` uses `PRISMA_SERVICE_TOKEN` for service-token auth.
 - `env-branch-scope` - Branch deploys, branch env vars, and branch databases must use the same branch name; pass `--branch <git-name>` explicitly when targeting a preview branch.
 - `env-production-vs-preview` - Use `--role production` for production env, `--role preview` for preview template env, and `--branch <git-name>` for branch-specific overrides.
-- `env-db-explicit` - Keep database and env wiring explicit through database and project env commands; deploy examples should not add database setup, and deploys do not run migrations, seed data, or create one database per app automatically.
-
-### 7. Deploy Operations
+- `env-db-explicit` - Keep database and env wiring explicit through database and project env commands; deploy examples should not add database setup, and deploys do not run migrations, seed data, or create one database per app automatically.
 
 - `deploy-prod-intent` - Use `--prod --yes` only when the user intends a production deploy. The first production deploy of an App auto-promotes without `--prod`; the flag gates subsequent production-branch deploys.
 - `deploy-no-promote` - Use `app deploy --no-promote` for build-then-verify: it builds a candidate reachable at its own URL without touching the live deployment, promoted later with `app promote <deployment-id>`.
@@ -161,15 +147,11 @@ Use this skill for:
 - `deploy-json-for-agents` - Use `--json --no-interactive` for scripts and agent-readable output.
 - `deploy-create-project` - Use `--create-project <name>` only when the user wants deploy to create and link a new project; it conflicts with `--project` and `PRISMA_PROJECT_ID`.
 - `deploy-ops-targets` - App show/open/logs/list-deploys/promote/rollback/remove and domain commands can also accept `[app]` targets from `prisma.compute.ts`.
-- `deploy-report-cli-bugs` - On `UNEXPECTED_ERROR` or an unresolvable failure, report it with the feedback command; see "Send Feedback and Report CLI Issues" above.
-
-### 8. SDK and API
+- `deploy-report-cli-bugs` - On `UNEXPECTED_ERROR` or an unresolvable failure, report it with the feedback command; see "Send Feedback and Report CLI Issues" above.
 
 - `sdk-use-cli-first` - Prefer `@prisma/cli app deploy` for app workflows; use `create-prisma` only to scaffold a new app unless the user is building lower-level automation.
 - `sdk-result-handling` - `@prisma/compute-sdk` returns `Result` values; check `isOk()`/`isErr()` instead of relying on exceptions.
-- `sdk-snapshot-detection` - Use `detectComputeApp` for repository snapshots that are not checked out to disk; enumerate workspaces yourself and call it once per candidate app root.
-
-## Preferred Workflow
+- `sdk-snapshot-detection` - Use `detectComputeApp` for repository snapshots that are not checked out to disk; enumerate workspaces yourself and call it once per candidate app root.
 
 1. Inspect the project: package manager, template/framework, `package.json` scripts, Prisma version, Prisma client location, `prisma.compute.ts`, and existing `compute:deploy`.
 2. Verify CLI help output for the package actually being used.
@@ -181,9 +163,7 @@ Use this skill for:
 5. Check framework readiness plus host/port/env/runtime requirements, including project and branch scope.
 6. Run a local build or `app build` before deploying when feasible.
 7. Deploy with JSON output when automating, then request the public URL and summarize app URL, app id, deployment id, project id, workspace id, and follow-up steps.
-8. For GitHub/Console builds, inspect the `Prisma Compute Deploy` check run or `build logs <build-id>` before guessing why a build failed.
-
-## Avoid
+8. For GitHub/Console builds, inspect the `Prisma Compute Deploy` check run or `build logs <build-id>` before guessing why a build failed.
 
 - Do not bury Compute deployment guidance in the generic `prisma-cli` skill.
 - Do not run `create-prisma` inside an existing app just to deploy it; use the generated `compute:deploy` script or `@prisma/cli app deploy`.

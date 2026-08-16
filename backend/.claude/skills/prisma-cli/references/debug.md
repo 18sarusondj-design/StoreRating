@@ -1,14 +1,14 @@
-# prisma debug
+
 
 Prints information helpful for debugging and bug reports.
 
-## Command
+
 
 ```bash
 prisma debug [options]
 ```
 
-## What It Does
+
 
 Outputs details about your Prisma environment, including:
 - Prisma CLI version
@@ -18,14 +18,14 @@ Outputs details about your Prisma environment, including:
 - Node.js version
 - Configured datasource provider
 
-## Options
+
 
 | Option | Description |
 |--------|-------------|
 | `--schema` | Path to schema file |
 | `--config` | Custom path to your Prisma config file |
 
-## Example Output
+
 
 ```
 prisma               : 7.3.0
@@ -39,7 +39,7 @@ PSL                  : ...
 Schema Engine        : ...
 ```
 
-## When to Use
+
 
 - **Troubleshooting**: Checking version mismatches
 - **Reporting Issues**: Including environment info in GitHub issues

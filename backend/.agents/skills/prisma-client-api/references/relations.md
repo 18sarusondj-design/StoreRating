@@ -1,8 +1,8 @@
-# Relation Queries
+
 
 Query and modify related records.
 
-## Include Relations
+
 
 Load related records:
 
@@ -16,7 +16,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Filtered include
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -32,7 +32,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Nested include
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -49,7 +49,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-## Select Relations
+
 
 ```typescript
 const user = await prisma.user.findUnique({
@@ -63,9 +63,9 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-## Nested Writes
 
-### Create with relations
+
+
 
 ```typescript
 const user = await prisma.user.create({
@@ -84,7 +84,7 @@ const user = await prisma.user.create({
 })
 ```
 
-### Create or connect
+
 
 ```typescript
 const post = await prisma.post.create({
@@ -100,7 +100,7 @@ const post = await prisma.post.create({
 })
 ```
 
-### Connect existing
+
 
 ```typescript
 const post = await prisma.post.create({
@@ -110,9 +110,7 @@ const post = await prisma.post.create({
       connect: { id: 1 }
     }
   }
-})
-
-// Shorthand for foreign key
+})
 const post = await prisma.post.create({
   data: {
     title: 'New Post',
@@ -121,9 +119,9 @@ const post = await prisma.post.create({
 })
 ```
 
-## Update Relations
 
-### Update related records
+
+
 
 ```typescript
 const user = await prisma.user.update({
@@ -139,7 +137,7 @@ const user = await prisma.user.update({
 })
 ```
 
-### Update many related
+
 
 ```typescript
 const user = await prisma.user.update({
@@ -155,7 +153,7 @@ const user = await prisma.user.update({
 })
 ```
 
-### Upsert related
+
 
 ```typescript
 const user = await prisma.user.update({
@@ -171,18 +169,15 @@ const user = await prisma.user.update({
 })
 ```
 
-### Disconnect
 
-```typescript
-// 1-to-1 optional
+
+```typescript
 const user = await prisma.user.update({
   where: { id: 1 },
   data: {
     profile: { disconnect: true }
   }
-})
-
-// Many-to-many
+})
 const post = await prisma.post.update({
   where: { id: 1 },
   data: {
@@ -193,7 +188,7 @@ const post = await prisma.post.update({
 })
 ```
 
-### Delete related
+
 
 ```typescript
 const user = await prisma.user.update({
@@ -203,9 +198,7 @@ const user = await prisma.user.update({
       delete: { id: 1 }
     }
   }
-})
-
-// Delete many
+})
 const user = await prisma.user.update({
   where: { id: 1 },
   data: {
@@ -216,10 +209,9 @@ const user = await prisma.user.update({
 })
 ```
 
-### Set (replace all)
 
-```typescript
-// Replace all related records
+
+```typescript
 const post = await prisma.post.update({
   where: { id: 1 },
   data: {
@@ -230,9 +222,9 @@ const post = await prisma.post.update({
 })
 ```
 
-## Relation Filters
 
-### some
+
+
 
 At least one matches:
 
@@ -244,7 +236,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### every
+
 
 All match:
 
@@ -256,7 +248,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### none
+
 
 None match:
 
@@ -268,7 +260,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### is / isNot (1-to-1)
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -278,7 +270,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-## Count Relations
+
 
 ```typescript
 const users = await prisma.user.findMany({
@@ -288,11 +280,10 @@ const users = await prisma.user.findMany({
       select: { posts: true, followers: true }
     }
   }
-})
-// { name: 'Alice', _count: { posts: 5, followers: 100 } }
+})
 ```
 
-### Filter counted relations
+
 
 ```typescript
 const users = await prisma.user.findMany({

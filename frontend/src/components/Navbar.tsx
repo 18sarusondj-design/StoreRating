@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Password update form state
+  
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -67,7 +67,7 @@ export const Navbar: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {isAuthenticated && user ? (
             <>
-              {/* Profile Drawer Button */}
+              {}
               <button 
                 className="btn btn-secondary" 
                 onClick={() => setDrawerOpen(true)}
@@ -89,7 +89,7 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Slide-out Sidebar Drawer */}
+      {}
       {drawerOpen && user && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', zIndex: 10000, display: 'flex', justifyContent: 'flex-end' }}>
           <div className="glass-panel" style={{
@@ -104,7 +104,7 @@ export const Navbar: React.FC = () => {
             flexDirection: 'column',
             animation: 'slideInRight 0.3s ease forwards'
           }}>
-            {/* Header */}
+            {}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #4F46E5 0%, #10B981 100%)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', fontWeight: 'bold' }}>
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-            {/* Profile Details */}
+            {}
             <div style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <h4 style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Account Details</h4>
               
@@ -152,11 +152,11 @@ export const Navbar: React.FC = () => {
               </div>
             </div>
 
-            {/* Notifications / Messages */}
+            {}
             {passwordMsg && <div style={{ background: '#D1FAE5', color: '#059669', padding: '0.75rem', borderRadius: 'var(--radius-md)', marginBottom: '1rem', fontSize: '0.875rem' }}>{passwordMsg}</div>}
             {passwordErr && <div style={{ background: '#FEE2E2', color: '#DC2626', padding: '0.75rem', borderRadius: 'var(--radius-md)', marginBottom: '1rem', fontSize: '0.875rem' }}>{passwordErr}</div>}
 
-            {/* Actions */}
+            {}
             <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
               {!showPasswordForm ? (
                 <button 

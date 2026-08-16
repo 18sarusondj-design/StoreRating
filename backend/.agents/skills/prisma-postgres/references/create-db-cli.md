@@ -1,16 +1,16 @@
-# create-db-cli
+
 
 Use `create-db` for instant Prisma Postgres provisioning from the terminal.
 
-## Priority
+
 
 CRITICAL
 
-## Why It Matters
+
 
 `create-db` is the fastest way to get a working Prisma Postgres instance for development, demos, and CI previews. It can also emit machine-readable output and write env variables directly.
 
-## Commands
+
 
 ```bash
 npx create-db@latest
@@ -25,7 +25,7 @@ npx create-pg@latest
 npx create-postgres@latest
 ```
 
-## Command discovery (`--help`)
+
 
 Always use `--help` first when integrating CLI commands:
 
@@ -40,7 +40,7 @@ Top-level commands currently exposed:
 - `create` (default) to provision a database
 - `regions` to list available regions
 
-## `create` options
+
 
 | Flag | Shorthand | Description |
 |---|---|---|
@@ -53,21 +53,20 @@ Top-level commands currently exposed:
 | `--quiet [boolean]` | `-q` | Only print the connection string |
 | `--open [boolean]` | `-o` | Open the claim URL in your browser |
 
-## Lifecycle and claim flow
+
 
 - Databases are temporary by default.
 - Unclaimed databases are auto-deleted after ~24 hours.
 - Claim the database using the URL shown in command output to keep it permanently.
 
-## Programmatic usage (library API)
+
 
 You can also use `create-db` programmatically in Node.js/Bun instead of shelling out to the CLI.
 
 Install:
 
 ```bash
-npm install create-db
-# or
+npm install create-db
 bun add create-db
 ```
 
@@ -103,34 +102,19 @@ console.log(available);
 
 Programmatic `create()` defaults to `us-east-1` if no region is passed.
 
-## Common patterns
 
-```bash
-# quick database
-npx create-db@latest
 
-# region-specific database
-npx create-db@latest --region eu-central-1
-
-# interactive region selection
-npx create-db@latest --interactive
-
-# write env vars for app bootstrap
-npx create-db@latest --env .env
-
-# auto-delete sooner
-npx create-db@latest --ttl 2h
-
-# copy connection string to clipboard
-npx create-db@latest --copy
-
-# print only the connection string
-npx create-db@latest --quiet
-
-# CI-friendly output
+```bash
+npx create-db@latest
+npx create-db@latest --region eu-central-1
+npx create-db@latest --interactive
+npx create-db@latest --env .env
+npx create-db@latest --ttl 2h
+npx create-db@latest --copy
+npx create-db@latest --quiet
 npx create-db@latest --json
 ```
 
-## References
 
-- [npx create-db docs](https://www.prisma.io/docs/postgres/introduction/npx-create-db)
+
+- [npx create-db docs](https:

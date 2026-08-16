@@ -1,14 +1,14 @@
-# prisma studio
+
 
 Opens a visual database browser for viewing and editing data.
 
-## Command
+
 
 ```bash
 prisma studio [options]
 ```
 
-## What It Does
+
 
 - Starts a web-based database GUI
 - View all your models and records
@@ -16,7 +16,7 @@ prisma studio [options]
 - Filter and sort data
 - Navigate relations
 
-## Options
+
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -25,29 +25,29 @@ prisma studio [options]
 | `--config` | Custom path to your Prisma config file | - |
 | `--url` | Database connection string (overrides the one in your Prisma config) | - |
 
-## Examples
 
-### Open Studio
+
+
 
 ```bash
 prisma studio
 ```
 
-Opens at http://localhost:5555
+Opens at http:
 
-### Custom port
+
 
 ```bash
 prisma studio --port 3000
 ```
 
-### Specific browser
+
 
 ```bash
 prisma studio --browser firefox
 ```
 
-### Don't open browser
+
 
 ```bash
 BROWSER=none prisma studio
@@ -55,33 +55,33 @@ BROWSER=none prisma studio
 
 Useful for remote servers.
 
-## Features
 
-### View Records
+
+
 
 - See all records in table format
 - Pagination for large datasets
 - Column sorting
 
-### Filter Data
+
 
 - Filter by any field
 - Multiple conditions
 - Relation filtering
 
-### Edit Records
+
 
 - Click to edit inline
 - Add new records
 - Delete records (with confirmation)
 
-### Navigate Relations
+
 
 - Click relations to view related records
 - See counts of related items
 - Follow relation links
 
-## Recent Studio Capabilities
+
 
 Recent Prisma Studio releases added richer editor workflows:
 
@@ -95,14 +95,14 @@ Recent Prisma Studio releases added richer editor workflows:
 
 Some recent builds also expose AI-assisted SQL authoring. Treat these as interactive Studio features rather than a replacement for checked-in migrations or application queries.
 
-## Use Cases
+
 
 - **Development**: Quick data inspection
 - **Debugging**: Check data state
 - **Testing**: Verify seed data
 - **Demo**: Show data to stakeholders
 
-## Limitations
+
 
 - Development tool only
 - Not for production use
@@ -110,7 +110,7 @@ Some recent builds also expose AI-assisted SQL authoring. Treat these as interac
 - Prisma Studio in Prisma 7 currently targets PostgreSQL, MySQL, and SQLite first
 - For reproducible application logic, prefer Prisma Client and checked-in SQL scripts
 
-## Common Workflow
+
 
 1. Run migrations:
    ```bash
@@ -129,7 +129,7 @@ Some recent builds also expose AI-assisted SQL authoring. Treat these as interac
 
 4. Make manual edits if needed
 
-## Security Note
+
 
 Studio provides direct database access. Only run on:
 - Local development machines
